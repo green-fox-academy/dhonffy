@@ -10,7 +10,7 @@ int main(int argc, char* args[]) {
 
     std::cout << 22*13 << std::endl;// Print the result of 22 multiplied by 13
 
-    std::cout << (float) 22 / 13  << std::endl;// Print the result of 22 divided by 13 (as a decimal fraction)
+    std::cout << static_cast<float> (22) / 13  << std::endl;// Print the result of 22 divided by 13 (as a decimal fraction)
 
     std::cout << 22/13 << std::endl;// Print the integer part of 22 divided by 13
 
