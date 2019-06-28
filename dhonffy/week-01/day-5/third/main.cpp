@@ -9,7 +9,7 @@ int main(int argc, char* args[]) {
     // - Print the third element of `q`
     int q[] = {4, 5, 6, 7};
 
-    std::cout << "The third element is: " << q[3] << std::endl;
+    std::cout << "The third element is: " << q[2] << std::endl;
 
     return 0;
 }
