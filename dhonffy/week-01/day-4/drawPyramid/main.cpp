@@ -13,7 +13,7 @@ int main(int argc, char* args[]) {
     //
     // The pyramid should have as many lines as the number was
 
-    int allRows;
+    /*int allRows;
     std::cout << "Please, type a number!" << std::endl;
     std::cin >> allRows;
     for (int actRow = 1; actRow <= allRows ; ++actRow) {
@@ -27,6 +27,17 @@ int main(int argc, char* args[]) {
             }
         }
         std::cout << std::endl;
+    }*/
+
+    int allRows;
+    std::cout << "Please, type a number!" << std::endl;
+    std::cin >> allRows;
+    for (int actRow = 1; actRow <= allRows ; ++actRow) {
+            for (int stars = 1; stars < (actRow-1); stars += 1) {
+                std::cout << "*";
+            }
+        std::cout << std::endl;
     }
+
     return 0;
 }
