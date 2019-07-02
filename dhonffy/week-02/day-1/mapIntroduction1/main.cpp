@@ -54,10 +54,8 @@ int main()
         std::cout << "Not found." << std::endl;
     }
     // Remove all the key-value pairs
-    test.size();
-    for (it = test.begin(); it != test.end(); ++it) {
-        test.erase(it);
-    }
+    test.clear();
+
 
 
     return 0;
