@@ -9,7 +9,7 @@ IF(WIN32)
     set(MINGW_VERSION i686-w64-mingw32)
 ENDIF()
 
-set(EXECUTABLES "draw;draw2;lineInTheMiddle;coloredBox;diagonals;goToCenter;horizontalLines;squareInTheCenter")
+set(EXECUTABLES "draw;draw2;lineInTheMiddle;coloredBox;diagonals;goToCenter;horizontalLines;squareInTheCenter;fourRectangles")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(GFA_SDL2 REQUIRED)
