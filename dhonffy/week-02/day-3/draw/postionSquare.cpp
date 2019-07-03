@@ -23,8 +23,6 @@ void draw(SDL_Renderer *gRenderer)
 void drawSquare(SDL_Renderer *gRenderer, int x1, int y1)
 {
     SDL_SetRenderDrawColor(gRenderer, 0x20 /*R*/, 0x10 /*G*/, 0xA0 /*B*/, 0xFF /*A*/);
-    SDL_RenderDrawLine(gRenderer, x1, y1, x1, y1 + 50);
-    SDL_RenderDrawLine(gRenderer, x1, y1 + 50, x1 + 50, y1 + 50);
-    SDL_RenderDrawLine(gRenderer, x1 + 50, y1 + 50, x1 + 50, y1);
-    SDL_RenderDrawLine(gRenderer, x1 + 50, y1, x1, y1);
+    SDL_Rect fillRect = {x1, y1, 50, 50};
+    SDL_RenderFillRect(gRenderer, &fillRect);
 }
