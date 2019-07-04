@@ -3,7 +3,8 @@
 #include <string>
 
 int searchPrice(std::map<std::string, int>, std::string);
-//std::string mostExpensive((std::map<std::string, int>);
+std::string mostExpensive(std::map<std::string, int>);
+std::string cheapest(std::map<std::string, int>);
 int sum(std::map<std::string, int>);
 float average(std::map<std::string, int>);
 int searchCheapProducts(std::map<std::string, int>, int);
@@ -34,7 +35,7 @@ int main()
 //    How much is the fish?
     std::cout << "The fish costs: " << searchPrice(productDatabase, "Fish") << std::endl;
 //    What is the most expensive product?
-//    std::cout << mostExpensive(productDatabase) << "is the most expensive product." << std::endl;
+    std::cout << mostExpensive(productDatabase) << " is the most expensive product." << std::endl;
 //    What is the average price?
     std::cout << "The average price is: " << average(productDatabase) << std::endl;
 //    How many products' price is below 300?
@@ -42,6 +43,7 @@ int main()
 //    Is there anything we can buy for exactly 125?
     searchExactPrice(productDatabase, 125);
 //    What is the cheapest product?
+    std::cout << cheapest(productDatabase) << " is the cheapest product." << std::endl;
 
     return 0;
 }
@@ -51,15 +53,31 @@ int searchPrice(std::map<std::string, int> productDatabase, std::string item)
     return productDatabase["Fish"];
 }
 
-//std::string mostExpensive(std::map<std::string, int> productDatabase)
-//{
-//    pair(std::string, int = 0) mostExpensive;
-//    for (auto it = 0, it != productDatabase.end(), ++it) {
-//        if (productDatabase[it] >= mostExpensive) {
-//
-//        }
-//    }
-//}
+std::string mostExpensive(std::map<std::string, int> productDatabase)
+{
+    int highestPrice = 0;
+    std::string mostExpensive;
+    for (auto it = productDatabase.begin(); it != productDatabase.end() ; ++it) {
+        if (it->second >= highestPrice) {
+            highestPrice = it->second;
+            mostExpensive = it->first;
+        }
+    }
+    return mostExpensive;
+}
+
+std::string cheapest(std::map<std::string, int> productDatabase)
+{
+    int lowestPrice = 2147483647;
+    std::string cheapest;
+    for (auto it = productDatabase.begin(); it != productDatabase.end() ; ++it) {
+        if (it->second <= lowestPrice) {
+            lowestPrice = it->second;
+            cheapest = it->first;
+        }
+    }
+    return cheapest;
+}
 
 int sum(std::map<std::string, int> productDatabase)
 {
