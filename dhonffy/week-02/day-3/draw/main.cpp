@@ -26,7 +26,7 @@ bool init() {
     }
 
     //Create window
-    gWindow = SDL_CreateWindow("Line in the middle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+    gWindow = SDL_CreateWindow("Triangle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
                                SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (gWindow == nullptr) {
         std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
