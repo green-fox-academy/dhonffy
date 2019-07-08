@@ -32,7 +32,8 @@ int main()
     // Add value D with the key 68
     test.insert(it, std::pair<int, char>(68, 'D'));
     // Print how many key-value pairs are in the map
-    std::cout << "Number of key-value pairs: " << test.size() << std::endl;
+    std::cout << "Number of key-val"
+                 "ue pairs: " << test.size() << std::endl;
     // Print the value that is associated with key 99
     for (it = test.begin(); it != test.end(); ++it) {
         if (it->first == 99) {

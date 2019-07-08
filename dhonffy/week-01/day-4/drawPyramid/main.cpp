@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main(int argc, char* args[]) {
+int main(int argc, char *args[])
+{
 
     // Write a program that reads a number from the standard input, then draws a
     // pyramid like this:
@@ -13,31 +14,20 @@ int main(int argc, char* args[]) {
     //
     // The pyramid should have as many lines as the number was
 
-    /*int allRows;
+    int allRows;
     std::cout << "Please, type a number!" << std::endl;
     std::cin >> allRows;
-    for (int actRow = 1; actRow <= allRows ; ++actRow) {
-        for (int spaces = 0; spaces < (allRows - actRow) ; ++spaces) {
+    for (int actRow = 1; actRow <= allRows; ++actRow) {
+        for (int spaces = 0; spaces < (allRows - actRow); ++spaces) {
             std::cout << " ";
         }
         std::cout << "*";
-        if ( actRow > 1 ) {
-            for (int stars = 0; stars < (actRow-1); ++stars) {
+        if (actRow > 1) {
+            for (int stars = 0; stars < (actRow - 1); ++stars) {
                 std::cout << "**";
             }
         }
         std::cout << std::endl;
-    }*/
-
-    int allRows;
-    std::cout << "Please, type a number!" << std::endl;
-    std::cin >> allRows;
-    for (int actRow = 1; actRow <= allRows ; ++actRow) {
-            for (int stars = 1; stars < (actRow-1); stars += 1) {
-                std::cout << "*";
-            }
-        std::cout << std::endl;
     }
-
     return 0;
 }
