@@ -27,7 +27,7 @@ bool copy(std::string source, std::string destination)
     try {
         if (sourceFile.is_open()) {
             destinationFile.open(destination);
-            if (sourceFile.is_open()) {
+            if (destinationFile.is_open()) {
                 while (std::getline(sourceFile, line)){
                     destinationFile << line << std::endl;
                 }
