@@ -4,8 +4,14 @@
 
 #include "Counter.h"
 
-Counter::Counter(int number): _number(number){}
-Counter::Counter(): _number(0){}
+Counter::Counter(int number): _number(number)
+{
+    _resetValue = number;
+}
+Counter::Counter(): _number(0)
+{
+    _resetValue = 0;
+}
 
 void Counter::add()
 {
@@ -21,5 +27,5 @@ int Counter::get()
 }
 void Counter::reset()
 {
-    _number = 0;
+    _number = _resetValue;
 }

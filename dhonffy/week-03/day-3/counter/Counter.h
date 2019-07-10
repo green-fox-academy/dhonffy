@@ -16,7 +16,8 @@ public:
     int get();
     void reset();
 private:
-    int _number = 0;
+    int _number;
+    int _resetValue;
 };
 
 
