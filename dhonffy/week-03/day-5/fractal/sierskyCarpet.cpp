@@ -34,5 +34,4 @@ void drawRectangle(SDL_Renderer *gRenderer, int x1, int y1, int a, int b, int de
     drawRectangle(gRenderer, x1 + a, y1 + 2 * b, a / 3, b / 3, depth + 1); //alsó
     drawRectangle(gRenderer, x1 + 2 * a, y1 + 2 * b, a / 3, b / 3, depth + 1); //jobb alsó
     drawRectangle(gRenderer, x1 + 2 * a, y1 + b, a / 3, b / 3, depth + 1); //jobb
-
 }
