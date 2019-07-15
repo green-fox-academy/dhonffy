@@ -25,16 +25,12 @@ class Person
 public:
 
     Person(const std::string &name, int age, Gender gender);
-
     Person();
-
     void introduce();
-
     void getGoal();
-
     Gender getGender();
 
-private:
+protected:
     std::string _name;
     int _age;
     Gender _gender;
