@@ -1,14 +1,14 @@
 #include <iostream>
 #include "Person.h"
 
-Person::Person(const std::string &name, int age, Gender gender) : _name(name), _age(age), _gender(Gender::female)
+Person::Person(const std::string &name, int age, Gender gender) : _name(name), _age(age), _gender(Gender::FEMALE)
 {}
 
 Person::Person()
 {
     _name = "Jane Doe";
     _age = 30;
-    _gender = Gender::female;
+    _gender = Gender::FEMALE;
 }
 
 Gender Person::getGender(){
@@ -16,7 +16,7 @@ Gender Person::getGender(){
 }
 
 void Person::introduce(){
-    std::cout << "Hi, I'm " << _name <<" a " << _age << " old " /*<< getGender() */<< std::endl;
+    std::cout << "Hi, I'm " << _name <<" a " << _age << " old " << Person::getGender() << std::endl;
 }
 
 void Person::getGoal(){

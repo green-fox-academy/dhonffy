@@ -14,10 +14,10 @@
 //    Person(name, age, gender)
 //    Person(): sets name to Jane Doe, age to 30, gender to female
 
-enum class Gender
+enum Gender
 {
-    male,
-    female
+    MALE,
+    FEMALE
 };
 
 class Person

@@ -29,10 +29,10 @@ public:
 
     void getGoal();
     void introduce();
-    void skippedDays(int& numberOfSkippedDays);
+    int skipDays(int numberOfSkippedDays);
 private:
     std::string _previousOrganization;
-    int _numberOfSkippedDays;
+    int _skippedDays;
 };
 
 
