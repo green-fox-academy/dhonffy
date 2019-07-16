@@ -20,6 +20,32 @@ void Mentor::getGoal()
 
 void Mentor::introduce()
 {
-    std::cout << "Hi, I'm " << _name << " a " << _age << " old " << Mentor::getGender() << Mentor::_level << " mentor."
+    std::string mentor;
+    switch (Mentor::getGender()) {
+        case 0:
+            mentor = "male";
+            break;
+        case 1:
+            mentor = "female";
+            break;
+        default:
+            mentor = "unknown";
+    }
+
+    std::string mentorLevel;
+    switch (Mentor::getGender()) {
+        case 0:
+            mentorLevel = "junior";
+            break;
+        case 1:
+            mentorLevel = "intermediate";
+            break;
+        case 2:
+            mentorLevel = "senior";
+            break;
+        default:
+            mentorLevel = "unknown";
+    }
+    std::cout << "Hi, I'm " << _name << " a " << _age << " old " << mentor << " " << mentorLevel << " mentor."
               << std::endl;
 }

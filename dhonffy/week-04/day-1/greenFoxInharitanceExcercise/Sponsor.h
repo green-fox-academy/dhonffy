@@ -22,9 +22,9 @@ public:
 
     Sponsor();
 
-    void introduce();
-    void hire(int&);
-    void getGoal();
+    void introduce() override;
+    void hire();
+    void getGoal() override;
 private:
     std::string _company;
     int _hiredStudents;

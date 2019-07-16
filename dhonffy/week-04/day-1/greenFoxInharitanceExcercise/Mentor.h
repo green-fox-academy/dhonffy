@@ -28,8 +28,8 @@ public:
     Mentor(const std::string &name, int age, Gender gender, Level level);
     Mentor();
 
-    void getGoal();
-    void introduce();
+    void getGoal() override;
+    void introduce() override;
 private:
     Level _level;
 };

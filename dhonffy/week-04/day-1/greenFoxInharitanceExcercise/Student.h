@@ -23,12 +23,12 @@
 class Student : public Person
 {
 public:
-    Student(const std::string &name, int age, Gender gender, const std::string &previousOrganization,
-            int numberOfSkippedDays);
+    Student(const std::string &name, int age, Gender gender, const std::string &previousOrganization);
+
     Student();
 
-    void getGoal();
-    void introduce();
+    void getGoal() override;
+    void introduce() override;
     int skipDays(int numberOfSkippedDays);
 private:
     std::string _previousOrganization;

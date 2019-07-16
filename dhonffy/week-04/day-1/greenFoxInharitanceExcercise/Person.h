@@ -26,14 +26,15 @@ public:
 
     Person(const std::string &name, int age, Gender gender);
     Person();
-    void introduce();
-    void getGoal();
+    virtual void introduce();
+    virtual void getGoal();
     Gender getGender();
 
 protected:
     std::string _name;
     int _age;
     Gender _gender;
+    std::string genderTosString(int getGender());
 };
 
 

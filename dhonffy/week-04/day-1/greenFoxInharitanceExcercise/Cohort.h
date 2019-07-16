@@ -20,8 +20,7 @@
 class Cohort
 {
 public:
-    Cohort(const std::string &name, const std::vector<Student *> &students, const std::vector<Mentor *> &mentors);
-
+    Cohort(const std::string &name);
     void addStudent(Student*);
     void addMentor(Mentor*);
     void info();

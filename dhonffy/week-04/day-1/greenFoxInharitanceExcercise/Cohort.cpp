@@ -1,9 +1,9 @@
 #include "Cohort.h"
 #include <iostream>
 
-Cohort::Cohort(const std::string &name, const std::vector<Student *> &students, const std::vector<Mentor *> &mentors)
-        : _name(name), students(students), mentors(mentors)
+Cohort::Cohort(const std::string &name) : _name(name)
 {}
+
 
 void Cohort::addStudent(Student *student)
 {
@@ -20,4 +20,5 @@ void Cohort::info()
     std::cout << "The " << _name << " has " << students.size() << " students and "
               << mentors.size() << " mentors." << std::endl;
 }
+
 

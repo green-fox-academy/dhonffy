@@ -21,18 +21,29 @@ Sponsor::Sponsor()
 
 void Sponsor::introduce()
 {
-    std::cout << "Hi, I'm " << _name << " a " << _age << " old " << Sponsor::getGender() << " who represents "
+    std::string sponsor;
+    switch (Sponsor::getGender()) {
+        case 0:
+            sponsor = "male";
+            break;
+        case 1:
+            sponsor = "female";
+            break;
+        default:
+            sponsor = "unknown";
+    }
+    std::cout << "Hi, I'm " << _name << " a " << _age << " old " << sponsor << " who represents "
               << _company << " and hired " << _hiredStudents << " students so far. " << std::endl;
 }
 
 
 
-void hire(int &_hiredStudents)
+void Sponsor::hire()
 {
     _hiredStudents++;
 }
 
-void getGoal()
+void Sponsor::getGoal()
 {
     std::cout << "My goal is: Hire brilliant junior software developers." << std::endl;
 }

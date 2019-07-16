@@ -1,9 +1,11 @@
 #include "Student.h"
 #include <iostream>
-Student::Student(const std::string &name, int age, Gender gender, const std::string &previousOrganization,
-                 int numberOfSkippedDays) : Person(name, age, gender), _previousOrganization(previousOrganization),
-                                            _skippedDays(0)
-{}
+
+Student::Student(const std::string &name, int age, Gender gender, const std::string &previousOrganization) : Person(
+        name, age, gender), _previousOrganization(previousOrganization)
+{
+    _skippedDays = 0;
+}
 
 Student::Student()
 {
@@ -24,7 +26,21 @@ int Student::skipDays(int numberOfSkippedDays)
     return _skippedDays += numberOfSkippedDays;
 }
 
-void Student::introduce(){
-    std::cout << "Hi, I'm " << _name <<" a " << _age << " old " << Student::getGender() << " from "
-    << _previousOrganization << " who skipped " << _skippedDays << " days from the yourse already" << std::endl;
+void Student::introduce()
+{
+    std::string student;
+    switch (Student::getGender()) {
+        case 0:
+            student = "male";
+            break;
+        case 1:
+            student = "female";
+            break;
+        default:
+            student = "unknown";
+    }
+    std::cout << "Hi, I'm " << _name << " a " << _age << " old " << student << " from "
+              << _previousOrganization << " who skipped " << _skippedDays << " days from the course already"
+              << std::endl;
 }
+
