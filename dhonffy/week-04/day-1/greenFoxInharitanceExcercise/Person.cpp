@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Person.h"
 
-Person::Person(const std::string &name, int age, Gender gender) : _name(name), _age(age), _gender(Gender::FEMALE)
+Person::Person(const std::string &name, int age, Gender gender) : _name(name), _age(age), _gender(gender)
 {}
 
 Person::Person()
