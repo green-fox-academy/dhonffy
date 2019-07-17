@@ -1,0 +1,1 @@
+add_library(${PROJECT_LIB_NAME} apple.h apple.cpp sum.cpp sum.h anagram.cpp anagram.h countLetters.cpp countLetters.h test.h)
