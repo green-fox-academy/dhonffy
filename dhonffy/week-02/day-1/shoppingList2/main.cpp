@@ -2,8 +2,7 @@
 #include <map>
 #include <string>
 
-float findPrice(std::map<std::string, int>, std::string);
-float calculateTotalPrice(std::pair<std::string, int>, std::map<std::string, float>);
+float bobPays(std::map<std::string, float>, std::map<std::string, int>);
 
 int main()
 {
@@ -38,14 +37,6 @@ int main()
 //    Apples 	        1
 //    Tomato 	        10
 //
-//    Create an application which solves the following problems.
-//    How much does Bob pay?
-//    How much does Alice pay?
-//    Who buys more Rice?
-//    Who buys more Potato?
-//    Who buys more different products?
-//    Who buys more products? (piece)
-//
     std::map<std::string, float> prices = {
             {"Milk",            1.07},
             {"Rice",            1.59},
@@ -58,7 +49,7 @@ int main()
             {"Onion",           1.10}
     };
 
-    std::map<std::string, int> shoppingListBob = {
+    std::map<std::string, int> bobWhatToBuy = {
             {"Milk",            3},
             {"Rice",            2},
             {"Eggs",            2},
@@ -68,32 +59,34 @@ int main()
             {"Tomato",          2},
             {"Potato",          1}
     };
-    std::map<std::string, int> shoppingListAlice = {
+    std::map<std::string, int> aliceWhatToBuy = {
             {"Rice",            1},
             {"Eggs",            5},
             {"Chicken Breasts", 2},
             {"Apples",          1},
             {"Tomato",          10}
-      };
+    };
+
+//    Create an application which solves the following problems.
+//    How much does Bob pay?
+    std::cout << "Bob pays: " << bobPays(prices, bobWhatToBuy) << std::endl;
+//    How much does Alice pay?
+//    Who buys more Rice?
+//    Who buys more Potato?
+//    Who buys more different products?
+//    Who buys more products? (piece)
+//
 
     //    How much does Bob pay?
-    std::cout << calculateTotalPrice(shoppingListBob, prices);
 
     return 0;
 }
 
-float findPrice(std::map<std::string, int> priceList, std::string product)
+float bobPays(std::map<std::string, float> prices, std::map<std::string, int> bobBuys)
 {
-    return priceList[product];
-}
-
-float calculateTotalPrice(std::map<std::string, int> shoppingList, std::map<std::string, float> priceList)
-{
-    std::string name;
     float sum = 0;
-    for (auto it = shoppingList.begin(); it != shoppingList.end() ; ++it) {
-        sum += it->second * findPrice(priceList, it->first);
-        findPrice(priceList, "aaa");
+    for (auto it = bobBuys.begin(); it != bobBuys.end() ; ++it) {
+        sum = sum + prices[it->first] * it->second;
     }
     return sum;
 }
