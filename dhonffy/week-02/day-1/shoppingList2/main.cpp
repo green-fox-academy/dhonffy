@@ -3,6 +3,7 @@
 #include <string>
 
 float totalPrice(std::map<std::string, float>, std::map<std::string, int>);
+int compareAmount(std::map<std::string, int>, std::map<std::string, int>, std::string);
 
 int main()
 {
@@ -73,7 +74,23 @@ int main()
 //    How much does Alice pay?
     std::cout << "Alice pays: " << totalPrice(prices, aliceWhatToBuy) << std::endl;
 //    Who buys more Rice?
+    int whoBuysMore = compareAmount(bobWhatToBuy, aliceWhatToBuy, "Rice");
+    if (whoBuysMore == 1){
+        std::cout << "Bob buys more rice.";
+    } else if (whoBuysMore == 3){
+        std::cout << "Alice buys more rice.";
+    } else {
+        std::cout << "They buy the same amount of rice.";
+    }
 //    Who buys more Potato?
+    whoBuysMore = compareAmount(bobWhatToBuy, aliceWhatToBuy, "Potato");
+    if (whoBuysMore == 1){
+        std::cout << "Bob buys more potato.";
+    } else if (whoBuysMore == 3){
+        std::cout << "Alice buys more potato.";
+    } else {
+        std::cout << "They buy the same amount of potato.";
+    }
 //    Who buys more different products?
 //    Who buys more products? (piece)
 //
@@ -92,3 +109,14 @@ float totalPrice(std::map<std::string, float> prices, std::map<std::string, int>
     return sum;
 }
 
+int compareAmount(std::map<std::string, int>mapToCompare1, std::map<std::string, int>mapToCompare2,  std::string find)
+{
+    if (mapToCompare1[find] > mapToCompare2[find]){
+        return 1;
+    } else if (mapToCompare1[find] < mapToCompare2[find]){
+        return 3;
+    } else {
+        return 2;
+    }
+    return 0;
+}
