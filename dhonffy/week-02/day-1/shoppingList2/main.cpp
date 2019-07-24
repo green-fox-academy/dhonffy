@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 
-float bobPays(std::map<std::string, float>, std::map<std::string, int>);
+float totalPrice(std::map<std::string, float>, std::map<std::string, int>);
 
 int main()
 {
@@ -69,8 +69,9 @@ int main()
 
 //    Create an application which solves the following problems.
 //    How much does Bob pay?
-    std::cout << "Bob pays: " << bobPays(prices, bobWhatToBuy) << std::endl;
+    std::cout << "Bob pays: " << totalPrice(prices, bobWhatToBuy) << std::endl;
 //    How much does Alice pay?
+    std::cout << "Alice pays: " << totalPrice(prices, aliceWhatToBuy) << std::endl;
 //    Who buys more Rice?
 //    Who buys more Potato?
 //    Who buys more different products?
@@ -82,11 +83,12 @@ int main()
     return 0;
 }
 
-float bobPays(std::map<std::string, float> prices, std::map<std::string, int> bobBuys)
+float totalPrice(std::map<std::string, float> prices, std::map<std::string, int> items)
 {
     float sum = 0;
-    for (auto it = bobBuys.begin(); it != bobBuys.end() ; ++it) {
+    for (auto it = items.begin(); it != items.end() ; ++it) {
         sum = sum + prices[it->first] * it->second;
     }
     return sum;
 }
+
