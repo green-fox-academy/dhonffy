@@ -26,12 +26,11 @@ void drawCircle(SDL_Renderer *gRenderer, int x1, int y1, int r, int depth)
     }
     int centreX = x1;
     int centreY = y1;
-    int radius = r;
-    int x = (radius - 1);
+    int x = (r - 1);
     int y = 0;
     int tx = 1;
     int ty = 1;
-    int diameter = radius * 2;
+    int diameter = r * 2;
     int error = (tx - diameter);
     while (x >= y) {
         //  Each of the following renders an octant of the circle
@@ -56,7 +55,7 @@ void drawCircle(SDL_Renderer *gRenderer, int x1, int y1, int r, int depth)
             error += (tx - diameter);
         }
     }
-    drawCircle(gRenderer, x1, y1 - r / 2, radius / 2, depth + 1);
-    drawCircle(gRenderer, x1 - radius * 353 / 1000, y1 + radius * 353 / 1000, radius / 2, depth + 1);
-    drawCircle(gRenderer, x1 + radius * 353 / 1000, y1 + radius * 353 / 1000, r / 2, depth + 1);
+    drawCircle(gRenderer, x1, y1 - r / 2, r / 2, depth + 1);
+    drawCircle(gRenderer, x1 - r * 353 / 1000, y1 + r * 353 / 1000, r / 2, depth + 1);
+    drawCircle(gRenderer, x1 + r * 353 / 1000, y1 + r * 353 / 1000, r / 2, depth + 1);
 }
