@@ -19,7 +19,6 @@ class Plant
 {
 public:
     Plant(color color, type type);
-
     virtual void watering(int amount) = 0;
     virtual bool needsWater() = 0;
 protected:

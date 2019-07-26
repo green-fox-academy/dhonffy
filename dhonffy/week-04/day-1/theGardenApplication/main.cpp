@@ -1,25 +1,23 @@
 #include <iostream>
 #include "Flower.h"
 #include "Tree.h"
+#include "Garden.h"
 
 int main()
 {
+    Garden centralPark;
     Flower yellowFlower = Flower(color::YELLOW);
+    Flower blueFlower = Flower(color::BLUE);
     Tree purpleTree = Tree(color::PURPLE);
-    std::cout << yellowFlower.needsWater() << std::endl;
-    std::cout << purpleTree.needsWater() << std::endl;
-    yellowFlower.watering(5);
-    purpleTree.watering(5);
-    std::cout << yellowFlower.needsWater() << std::endl;
-    std::cout << purpleTree.needsWater() << std::endl;
-    yellowFlower.watering(5);
-    purpleTree.watering(5);
-    std::cout << yellowFlower.needsWater() << std::endl;
-    std::cout << purpleTree.needsWater() << std::endl;
-    yellowFlower.watering(1);
-    purpleTree.watering(20);
-    std::cout << yellowFlower.needsWater() << std::endl;
-    std::cout << purpleTree.needsWater() << std::endl;
+    Tree orangeTree = Tree(color::ORANGE);
+    centralPark.addPlant(&yellowFlower);
+    centralPark.addPlant(&blueFlower);
+    centralPark.addPlant(&purpleTree);
+    centralPark.addPlant(&orangeTree);
+    centralPark.watering(40);
+    centralPark.info();
+    centralPark.watering(70);
+    centralPark.info();
 
     return 0;
 }
