@@ -1,0 +1,6 @@
+#ifndef WHEREISIT_FINDAPPEARENCE_H
+#define WHEREISIT_FINDAPPEARENCE_H
+
+int find_appearence(char*, char);
+
+#endif //WHEREISIT_FINDAPPEARENCE_H
