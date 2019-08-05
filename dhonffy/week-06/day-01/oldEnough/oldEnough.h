@@ -1,0 +1,4 @@
+#ifndef OLDENOUGH_OLDENOUGH_H
+#define OLDENOUGH_OLDENOUGH_H
+int oldEnough(int);
+#endif //OLDENOUGH_OLDENOUGH_H
