@@ -1,0 +1,5 @@
+#ifndef LENGTH_CALCULATELENGTH_H
+#define LENGTH_CALCULATELENGTH_H
+
+int calculateLength(char*);
+#endif //LENGTH_CALCULATELENGTH_H
