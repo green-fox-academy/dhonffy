@@ -1,0 +1,4 @@
+#ifndef ARETHESAME_COMPARESTRINGS_H
+#define ARETHESAME_COMPARESTRINGS_H
+int compare_strings(char*, char*);
+#endif //ARETHESAME_COMPARESTRINGS_H
