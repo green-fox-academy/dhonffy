@@ -2,39 +2,26 @@
 
 int main()
 {
-    // Create a program that prints a few operations on two numbers: 22 and 13
+    // Write a program that stores 3 sides of a cuboid as variables (doubles)
+    // You should get these variables via console input
+    // The program should write the surface area and volume of the cuboid like:
+    //
+    // Surface Area: 600
+    // Volume: 1000
 
-    // Print the result of 13 added to 22
-
-    int addition = 13 + 22;
-
-    printf("13 + 22 = %d\n", addition);
-
-    // Print the result of 13 substracted from 22
-
-    int subtraction = 22-13;
-
-    printf("22 - 13 = %d\n", subtraction);
-
-    // Print the result of 22 multiplied by 13
-
-    int multiplication = 13 * 22;
-
-    printf("13 * 22 = %d\n", multiplication);
-
-    // Print the result of 22 divided by 13 (as a decimal fraction)
-
-    int division = 22 / 13;
-
-    printf("22 / 13 = %d\n", division);
-
-    // Print the reminder of 22 divided by 13
-
-    int modulo = 22 % 13;
-
-    printf("22 %% 13 = %d\n", modulo);
-
-    // Store the results in variables and use them when you display the result
+    int a;
+    int b;
+    int c;
+    printf("Please add the first side of the cuboid!\n");
+    scanf("%d", &a);
+    printf("Please add the second side of the cuboid!\n");
+    scanf("%d", &b);
+    printf("Please add the third side of the cuboid!\n");
+    scanf("%d", &c);
+    int surface = 2 * (a * b + b * c + a * c);
+    int volume = a * b * c;
+    printf("Surface: %d\n", surface);
+    printf("Volume: %d\n", volume);
 
     return 0;
 }
