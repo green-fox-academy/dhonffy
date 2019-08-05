@@ -18,3 +18,8 @@ int main()
     printf("The circumference of the square is: %f", calculate_circumference(3.14));
     return 0;
 }
+
+float calculate_circumference(float radius)
+{
+    return 2 * radius * PI;
+}
