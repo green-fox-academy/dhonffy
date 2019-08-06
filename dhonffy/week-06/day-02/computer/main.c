@@ -23,13 +23,16 @@ int main()
     computer.ram_size_GB = 8;
     computer.bits = 64;
 
-    printf("computer CPU speed %f GHz, RAM size %d GB, %d bits", computer.cpu_speed_GHz, computer.ram_size_GB,
+    printf("computer CPU speed %f GHz, RAM size %d GB, %d bits\n", computer.cpu_speed_GHz, computer.ram_size_GB,
                                                                                          computer.bits);
 
     Notebook notebook;
     notebook.cpu_speed_GHz = 2.1;
     notebook.ram_size_GB = 16;
     notebook.bits = 32;
+
+    printf("notebook CPU speed %f GHz, RAM size %d GB, %d bits\n", notebook.cpu_speed_GHz, notebook.ram_size_GB,
+                                                                                         notebook.bits);
 
     return 0;
 }
