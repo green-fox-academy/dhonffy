@@ -6,28 +6,16 @@
 
 int main()
 {
-    car_t volvo;
-    volvo.type = VOLVO;
-    volvo.km = 123456;
-    volvo.gas = 34.123;
+    car_t volvo = {VOLVO, 123456, 34.123};
     print_car(volvo);
 
-    car_t toyota;
-    toyota.type = TOYOTA;
-    toyota.km = 999999;
-    toyota.gas = 22.7;
+    car_t toyota = {TOYOTA, 999999, 22.7};
     print_car(toyota);
 
-    car_t land_rover;
-    land_rover.type = LAND_ROVER;
-    land_rover.km = 174745;
-    land_rover.gas = 96;
+    car_t land_rover = {LAND_ROVER, 174745 ,96};
     print_car(land_rover);
 
-    car_t tesla;
-    tesla.type = TESLA;
-    tesla.km = 46000;
-    tesla.gas = 0;
+    car_t tesla = {TESLA, 46000, 0};
     print_car(tesla);
 
     return 0;
