@@ -13,6 +13,8 @@ int main()
 {
     char test[50] = "Apple ";
     int repeat_number = 13;
-    printf("%s", repeat(test, repeat_number));
+    char* result = repeat(test, repeat_number)
+    printf("%s", result);
+    free(result);
     return 0;
 }
