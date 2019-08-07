@@ -1,0 +1,6 @@
+#ifndef PERCENTILE_READ_SIZE_H
+#define PERCENTILE_READ_SIZE_H
+
+int read_size();
+
+#endif //PERCENTILE_READ_SIZE_H
