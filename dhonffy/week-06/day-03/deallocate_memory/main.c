@@ -12,13 +12,7 @@ int main()
     for (int i = 0; i < 10; ++i) {
         array[i] = (i + 1) * 2;
     }
-    realloc(array, 20 * sizeof(int));
-    for (int i = 10; i < 20; ++i) {
-        array[i] = i * 2 + 1;
-    }
-    for (int j = 0; j < 20; ++j) {
-        printf("%d\n", array[j]);
-    }
+    realloc(array, 0 * sizeof(int));
     free(array);
 
     return 0;
