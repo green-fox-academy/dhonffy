@@ -35,5 +35,6 @@ int main()
             printf("\n");
         }
     }
+    free(array_x);
     return 0;
 }
