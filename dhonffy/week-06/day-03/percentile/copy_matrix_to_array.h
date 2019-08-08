@@ -1,0 +1,4 @@
+#ifndef PERCENTILE_COPY_MATRIX_TO_ARRAY_H
+#define PERCENTILE_COPY_MATRIX_TO_ARRAY_H
+int* copy_matrix_to_array(int**);
+#endif //PERCENTILE_COPY_MATRIX_TO_ARRAY_H
