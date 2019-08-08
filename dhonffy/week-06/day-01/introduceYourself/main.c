@@ -15,11 +15,11 @@ int main()
     //  31
     //  1.87
 
-
-    printf("Daniel Honffy\n");
-    printf("34\n");
-    printf("1.71\n");
-
-
+    char name[15] = "Daniel Honffy";
+    int age = 34;
+    float height = 1.71;
+    printf("%s\n", name);
+    printf("%d\n", age);
+    printf("%.2f\n", height);
     return 0;
 }
