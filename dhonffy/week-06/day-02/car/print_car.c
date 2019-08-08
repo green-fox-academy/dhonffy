@@ -12,9 +12,9 @@ void print_car(struct car car)
 char *sayCarType(int car)
 {
     switch (car) {
-        case 0: return "Volvo";
-        case 1: return "Toyota";
-        case 2: return "Land Rover";
-        case 3: return "Tesla";
+        case VOLVO: return "Volvo";
+        case TOYOTA: return "Toyota";
+        case LAND_ROVER: return "Land Rover";
+        case TESLA: return "Tesla";
     }
 }
