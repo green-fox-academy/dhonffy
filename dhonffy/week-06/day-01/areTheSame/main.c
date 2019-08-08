@@ -12,11 +12,6 @@ int main()
     char *string_to_compare_1 = "alma";
     char *string_to_compare_2 = "alma";
     int result;
-    printf("%d", compare_strings(string_to_compare_1, string_to_compare_2));
+    printf("%d", !strcmp(string_to_compare_1, string_to_compare_2));
     return 0;
-}
-
-int compare_strings(char *string_to_compare_1, char *string_to_compare_2)
-{
-    return !strcmp(string_to_compare_1, string_to_compare_2);
 }
