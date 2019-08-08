@@ -24,9 +24,9 @@ int main()
 
     // Print the result of 22 divided by 13 (as a decimal fraction)
 
-    int division = 22 / 13;
+    float division = 22.0 / 13.0;
 
-    printf("22 / 13 = %d\n", division);
+    printf("22 / 13 = %f\n", division);
 
     // Print the reminder of 22 divided by 13
 
