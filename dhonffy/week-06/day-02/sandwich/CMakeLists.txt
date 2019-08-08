@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
-project(sandwich C)
+project(sandw C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(sandwich main.c sandwich_order.h)
+add_executable(sandw main.c order_sandwiches.h order_sandwiches.c)

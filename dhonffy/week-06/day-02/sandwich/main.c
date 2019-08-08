@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include "sandwich_order.h"
+#include "order_sandwiches.h"
+#include "string.h"
+
 /*
 Create a sandwich struct
 It should store:
@@ -11,25 +13,15 @@ The parameters should be:
  - a sandwich struct
  - and an integer that represents how many sandwiches you want to order
 */
-struct Sandwich {
-    char* name;
-    float price;
-    float weight;
-};
-
 
 int main()
 {
-    struct Sandwich fish_sandwich{
-        name = fish;
-        price = 2.99;
-        weight = 30;
-    };
-    printf("Your order costs %f euros", order_sandwiches(fish_sandwich, 3));
+    sandwich_t fish_sandwich;
+
+    strcpy(fish_sandwich.name, "fish");
+    fish_sandwich.price = 2.99;
+    fish_sandwich.weight = 30;
+    printf("Your order costs %.2f euros", order_sandwiches(fish_sandwich, 3));
     return 0;
 }
 
-float order_sandwiches(struct Sandwich sandwich, int amount)
-{
-    return sandwich.price * (float)amount;
-}
