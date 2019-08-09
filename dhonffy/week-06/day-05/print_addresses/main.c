@@ -9,8 +9,7 @@ int main()
     // and store them in an array
     // print out the memory addresses of the elements in the array
     int amount = 5;
-    int* integers = read_integers(amount);
-    print_addresses(integers, amount);
+    print_addresses(read_integers(amount), amount);
     return 0;
 }
 
