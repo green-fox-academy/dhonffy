@@ -1,4 +1,6 @@
 #ifndef PERCENTILE_CALCULATE_PERCENTILE_H
 #define PERCENTILE_CALCULATE_PERCENTILE_H
+
 int calculate_percentile(int*, int, int);
+
 #endif //PERCENTILE_CALCULATE_PERCENTILE_H

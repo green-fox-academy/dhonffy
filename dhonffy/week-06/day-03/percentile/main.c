@@ -60,10 +60,10 @@ int main()
         printf("\n");
     }
 
-    //    printf("The 90th percentile is: %d.", calculate_percentile(*ordered_array, matrix_size * line_size, 90));
+    printf("The 90th percentile is: %d.", calculate_percentile(ordered_array, matrix_size * line_size, 90));
     int percentile = 90;
     int element = (int)((float)matrix_size * line_size / 100.0 * (float)percentile) - 1;
-    printf("The 90th percentile is: %d.\n", ordered_array[element]);
+//    printf("The 90th percentile is: %d.\n", ordered_array[element]);
 
     percentile = 80;
     element = (int)((float)matrix_size * line_size / 100.0 * (float)percentile) - 1;
