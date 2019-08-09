@@ -39,18 +39,31 @@ void insert(node_t **head, int data, int element)
     node_t *new_node = (node_t *) malloc(sizeof(node_t));
     new_node->data = data;
     node_t *p = *head;
-    node_t *nextNode = *head;
+    node_t *next_node = *head;
     for (int i = 0; i < element; ++i) {
         p = p->next;
     }
-    nextNode = p->next;
+    next_node = p->next;
     p->next = new_node;
-    new_node->next = nextNode;
+    new_node->next = next_node;
 }
 
-void size(node_t* head)
+int size(node_t* head)
 {
+    int counter = 0;
+    while (head != NULL) {
+        ++counter;
+        head = head->next;
+    }
+    return counter;
+}
 
+int empty(node_t* head)
+{
+    if(head == NULL) {
+        return 1;
+    }
+    return 0;
 }
 
 void print(node_t *head)
@@ -60,4 +73,10 @@ void print(node_t *head)
         printf("%d. %d\n", ++counter, head->data);
         head = head->next;
     }
+}
+void pop_front(node_t* head)
+{
+    struct node* new_head = head->next;
+    free(head);
+    *head = *new_head;
 }

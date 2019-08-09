@@ -11,6 +11,8 @@ void push_back(node_t** head, int data);
 void push_front(node_t** head, int data);
 void insert(node_t** head, int data, int element);
 void print(node_t* head);
-void size(node_t* head);
+int size(node_t* head);
+int empty(node_t* head);
+void pop_front(node_t* head);
 
 #endif //LINKED_LIST_LINKED_LIST_H
