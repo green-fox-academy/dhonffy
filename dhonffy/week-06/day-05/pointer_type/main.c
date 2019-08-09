@@ -13,11 +13,11 @@ int main()
     char* pointer_name = name;
 
     printf("Pointer a: %p\n", pointer_a);
-    printf("a: %d\n", a);
+    printf("a: %d\n", *pointer_a);
     printf("Pointer b: %p\n", pointer_b);
-    printf("b: %.1f\n", b);
+    printf("b: %.1f\n", *pointer_b);
     printf("Pointer name: %p\n", pointer_name);
-    printf("name: %s\n", name);
+    printf("name: %s\n", pointer_name);
 
     return 0;
 }
