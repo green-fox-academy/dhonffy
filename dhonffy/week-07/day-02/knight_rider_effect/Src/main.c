@@ -108,20 +108,12 @@ int main(void)
   while (1)
   {
 	  for (int i = 0; i < 3; ++i){
-		  HAL_Delay(50);
+		  HAL_Delay(200);
 		  GPIOF->ODR = GPIOF->ODR << 1;
 	  }
-	  for (int i = 0; i < 3; ++i){
-	  	  HAL_Delay(50);
-	  	  GPIOF->ODR = GPIOF->ODR >> 1;
-	  }
+	  HAL_Delay(200);
+	  GPIOF->ODR = led_1;
 
-
-	  //GPIOF->ODR |= led_2;
-	  //GPIOF->ODR |= led_3;
-	  //GPIOF->ODR |= led_4;
-	  //HAL_Delay(500);
-	  //GPIOF->ODR = 0;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
