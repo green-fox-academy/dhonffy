@@ -177,6 +177,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   BSP_LED_Init(LED_GREEN);
   BSP_PB_Init(BUTTON_WAKEUP, BUTTON_MODE_GPIO);
+  int pb_press_counter = 0;
+  int pb_release_counter = 0;
   int pb_previous_state = 0;
   /* USER CODE END 2 */
 
@@ -184,14 +186,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if(BSP_PB_GetState(BUTTON_WAKEUP) && !pb_previous_state){
-    	BSP_LED_Toggle(LED_GREEN);
-    	pb_previous_state = 1;
-    }
-    if(!BSP_PB_GetState(BUTTON_WAKEUP) && pb_previous_state){
-    	pb_previous_state = 0;
-    }
-
+	 if(BSP_PB_GetState(BUTTON_WAKEUP) && !pb_previous_state){
+		 pb_press_counter += 1;
+		 pb_previous_state = 1;
+ 	 }
+ 	 if(!BSP_PB_GetState(BUTTON_WAKEUP) && pb_previous_state){
+ 		 pb_release_counter += 1;
+ 		 pb_previous_state = 0;
+ 	 }
+ 	 if (pb_press_counter >= 5 && pb_release_counter >= 5) {
+ 		BSP_LED_On(LED_GREEN);
+ 		pb_press_counter = 5;
+ 	 }
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
