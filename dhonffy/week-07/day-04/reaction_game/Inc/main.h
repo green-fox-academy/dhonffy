@@ -72,8 +72,9 @@ void Error_Handler(void);
 #define FMC_NBL1_GPIO_Port GPIOE
 #define FMC_NBL0_Pin GPIO_PIN_0
 #define FMC_NBL0_GPIO_Port GPIOE
-#define ARDUINO_SCL_D15_Pin GPIO_PIN_8
-#define ARDUINO_SCL_D15_GPIO_Port GPIOB
+#define BUTTON_START_PB8_Pin GPIO_PIN_8
+#define BUTTON_START_PB8_GPIO_Port GPIOB
+#define BUTTON_START_PB8_EXTI_IRQn EXTI9_5_IRQn
 #define ULPI_D7_Pin GPIO_PIN_5
 #define ULPI_D7_GPIO_Port GPIOB
 #define ARDUINO_PWM_D3_Pin GPIO_PIN_4
@@ -112,6 +113,7 @@ void Error_Handler(void);
 #define OTG_FS_VBUS_GPIO_Port GPIOJ
 #define Audio_INT_Pin GPIO_PIN_6
 #define Audio_INT_GPIO_Port GPIOD
+#define Audio_INT_EXTI_IRQn EXTI9_5_IRQn
 #define FMC_D2_Pin GPIO_PIN_0
 #define FMC_D2_GPIO_Port GPIOD
 #define SDMMC_D3_Pin GPIO_PIN_11

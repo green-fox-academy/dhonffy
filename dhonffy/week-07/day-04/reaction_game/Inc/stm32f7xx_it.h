@@ -55,6 +55,7 @@ void UsageFault_Handler(void);
 void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
+void EXTI9_5_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void OTG_FS_IRQHandler(void);
 void LTDC_IRQHandler(void);
