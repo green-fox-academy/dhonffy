@@ -29,7 +29,11 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+typedef enum pin_state_negative
+{
+  GPIO_PIN_NEG_SET = 0,
+  GPIO_PIN_NEG_RESET
+}pin_state_negative_t;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -59,6 +63,8 @@ LTDC_HandleTypeDef hltdc;
 
 QSPI_HandleTypeDef hqspi;
 
+RNG_HandleTypeDef hrng;
+
 RTC_HandleTypeDef hrtc;
 
 SAI_HandleTypeDef hsai_BlockA2;
@@ -67,8 +73,6 @@ SAI_HandleTypeDef hsai_BlockB2;
 SD_HandleTypeDef hsd1;
 
 SPDIFRX_HandleTypeDef hspdif;
-
-SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
@@ -83,6 +87,9 @@ SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN PV */
 uint8_t game_started = 0;
+uint8_t user_1_reacted_early = 0;
+uint8_t reaction_measure = 0;
+uint32_t random_delay;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,7 +108,6 @@ static void MX_RTC_Init(void);
 static void MX_SAI2_Init(void);
 static void MX_SDMMC1_SD_Init(void);
 static void MX_SPDIFRX_Init(void);
-static void MX_SPI2_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
@@ -109,6 +115,7 @@ static void MX_TIM5_Init(void);
 static void MX_TIM8_Init(void);
 static void MX_TIM12_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_RNG_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
@@ -144,7 +151,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  int red_led_game_start_frequenz = 1000;
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -160,7 +167,6 @@ int main(void)
   MX_RTC_Init();
   MX_SAI2_Init();
   MX_SPDIFRX_Init();
-  MX_SPI2_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
@@ -168,18 +174,27 @@ int main(void)
   MX_TIM8_Init();
   MX_TIM12_Init();
   MX_USART1_UART_Init();
+  MX_RNG_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_RESET);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-  if (!game_started){
-    blink_led(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, 1000);
-  	continue;
-  }
+	if (!game_started){
+      blink_led(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, red_led_game_start_frequenz);
+      continue;
+    }
+    random_delay = ((random_delay % 10) + 1) * 1000;
+    HAL_Delay(random_delay);
+    reaction_measure = 1;
+    HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_SET);
+    /*if(user_1_reacted_early){
+      HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
+    }*/
+
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
@@ -610,6 +625,32 @@ static void MX_QUADSPI_Init(void)
 }
 
 /**
+  * @brief RNG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RNG_Init(void)
+{
+
+  /* USER CODE BEGIN RNG_Init 0 */
+
+  /* USER CODE END RNG_Init 0 */
+
+  /* USER CODE BEGIN RNG_Init 1 */
+
+  /* USER CODE END RNG_Init 1 */
+  hrng.Instance = RNG;
+  if (HAL_RNG_Init(&hrng) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RNG_Init 2 */
+
+  /* USER CODE END RNG_Init 2 */
+
+}
+
+/**
   * @brief RTC Initialization Function
   * @param None
   * @retval None
@@ -850,46 +891,6 @@ static void MX_SPDIFRX_Init(void)
 }
 
 /**
-  * @brief SPI2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_SPI2_Init(void)
-{
-
-  /* USER CODE BEGIN SPI2_Init 0 */
-
-  /* USER CODE END SPI2_Init 0 */
-
-  /* USER CODE BEGIN SPI2_Init 1 */
-
-  /* USER CODE END SPI2_Init 1 */
-  /* SPI2 parameter configuration*/
-  hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_MASTER;
-  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_4BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi2.Init.CRCPolynomial = 7;
-  hspi2.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-  hspi2.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
-  if (HAL_SPI_Init(&hspi2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN SPI2_Init 2 */
-
-  /* USER CODE END SPI2_Init 2 */
-
-}
-
-/**
   * @brief TIM1 Initialization Function
   * @param None
   * @retval None
@@ -903,8 +904,6 @@ static void MX_TIM1_Init(void)
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-  TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   /* USER CODE BEGIN TIM1_Init 1 */
 
@@ -925,10 +924,6 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
@@ -936,36 +931,9 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
-  sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
-  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
-  sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
-  sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-  sBreakDeadTimeConfig.DeadTime = 0;
-  sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
-  sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
-  sBreakDeadTimeConfig.BreakFilter = 0;
-  sBreakDeadTimeConfig.Break2State = TIM_BREAK2_DISABLE;
-  sBreakDeadTimeConfig.Break2Polarity = TIM_BREAK2POLARITY_HIGH;
-  sBreakDeadTimeConfig.Break2Filter = 0;
-  sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_DISABLE;
-  if (HAL_TIMEx_ConfigBreakDeadTime(&htim1, &sBreakDeadTimeConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
   /* USER CODE BEGIN TIM1_Init 2 */
 
   /* USER CODE END TIM1_Init 2 */
-  HAL_TIM_MspPostInit(&htim1);
 
 }
 
@@ -983,7 +951,6 @@ static void MX_TIM2_Init(void)
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM2_Init 1 */
 
@@ -1003,28 +970,15 @@ static void MX_TIM2_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
-  HAL_TIM_MspPostInit(&htim2);
 
 }
 
@@ -1343,7 +1297,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOI, ARDUINO_D7_Pin|ARDUINO_D8_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOI, ARDUINO_D7_Pin|LED_RGB_RED_PI2_Pin|LED_GREEN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_BL_CTRL_GPIO_Port, LCD_BL_CTRL_Pin, GPIO_PIN_SET);
@@ -1366,11 +1320,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(OTG_HS_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : BUTTON_START_PB8_Pin */
-  GPIO_InitStruct.Pin = BUTTON_START_PB8_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(BUTTON_START_PB8_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pins : PB8_Pin PB9_Pin */
+  GPIO_InitStruct.Pin = PB8_Pin|PB9_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ULPI_D7_Pin ULPI_D6_Pin ULPI_D5_Pin ULPI_D3_Pin 
                            ULPI_D2_Pin ULPI_D1_Pin ULPI_D4_Pin */
@@ -1382,13 +1336,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF10_OTG_HS;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : ARDUINO_SDA_D14_Pin */
-  GPIO_InitStruct.Pin = ARDUINO_SDA_D14_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
-  HAL_GPIO_Init(ARDUINO_SDA_D14_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pins : REACTION_BUTTON_PA15_Pin START_GAME_PA8_Pin */
+  GPIO_InitStruct.Pin = REACTION_BUTTON_PA15_Pin|START_GAME_PA8_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : OTG_FS_VBUS_Pin */
   GPIO_InitStruct.Pin = OTG_FS_VBUS_Pin;
@@ -1409,8 +1361,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(OTG_FS_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ARDUINO_D7_Pin ARDUINO_D8_Pin LCD_DISP_Pin */
-  GPIO_InitStruct.Pin = ARDUINO_D7_Pin|ARDUINO_D8_Pin|LCD_DISP_Pin;
+  /*Configure GPIO pins : ARDUINO_D7_Pin LED_RGB_RED_PI2_Pin LED_GREEN_Pin LCD_DISP_Pin */
+  GPIO_InitStruct.Pin = ARDUINO_D7_Pin|LED_RGB_RED_PI2_Pin|LED_GREEN_Pin|LCD_DISP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -1447,6 +1399,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(DCMI_PWR_EN_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_BLUE_Pin */
+  GPIO_InitStruct.Pin = BUTTON_BLUE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BUTTON_BLUE_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LCD_INT_Pin */
   GPIO_InitStruct.Pin = LCD_INT_Pin;
@@ -1506,25 +1464,45 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF10_OTG_HS;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : ARDUINO_MISO_D12_Pin ARDUINO_MOSI_PWM_D11_Pin */
+  GPIO_InitStruct.Pin = ARDUINO_MISO_D12_Pin|ARDUINO_MOSI_PWM_D11_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
 /* USER CODE BEGIN 4 */
 void blink_led(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint32_t period)
 {
-  HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_RESET);
-  HAL_Delay(period / 2);
-  HAL_GPIO_WritePin(GPIOx, GPIO_Pin, GPIO_PIN_SET);
+  HAL_GPIO_TogglePin(GPIOx, GPIO_Pin);
   HAL_Delay(period / 2);
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  game_started = 1;
-  HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
+  if(GPIO_Pin == START_GAME_PA8_Pin){
+	if(!game_started){
+      game_started = 1;
+      HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
+      HAL_RNG_GenerateRandomNumber(&hrng, &random_delay);
+	}
+  }
+  if(GPIO_Pin == REACTION_BUTTON_PA15_Pin){
+	if(game_started && !reaction_measure){
+	  user_1_reacted_early = 1;
+	  HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
+    }
+  }
 }
 /* USER CODE END 4 */
 
