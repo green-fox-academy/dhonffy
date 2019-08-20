@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include "pointer_linked_list.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -162,4 +163,14 @@ void sort_bubble(node_t* head)
             right = right->next;
         } while (right != NULL);
     } while (sorted == 1);
+}
+
+void sort_insertion(node_t* head)
+{
+    if (head == NULL){
+        return;
+    }
+    pointer_node_t* pointer_head;
+    pointer_init(&pointer_head);
+   
 }

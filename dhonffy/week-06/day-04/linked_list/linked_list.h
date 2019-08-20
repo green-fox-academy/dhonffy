@@ -18,5 +18,6 @@ int remove_if(node_t** head, int value);
 void delete_after(node_t** head, int element);
 node_t* search(node_t* head, int value);
 void sort_bubble(node_t* head);
+void sort_insertion(node_t* head);
 
 #endif //LINKED_LIST_LINKED_LIST_H
