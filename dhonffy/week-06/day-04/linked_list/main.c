@@ -19,6 +19,7 @@ int main()
     insert(&head, 99, 3);
     insert(&head, 10, 0);
     insert(&head, 10, 0);
+    insert(&head, 45, 2);
     print(head);
     printf("The size of the vector is: %d.\n", size(head));
     pop_front(&head);
@@ -26,7 +27,9 @@ int main()
     printf("The size of the vector is: %d.\n", size(head));
 
     printf("Number of deleted elements: %d.\n", remove_if(&head, 10));
-    //delete_after(&head, 6);
+    printf("Number of deleted elements: %d.\n", remove_if(&head, 0));
+    printf("Number of deleted elements: %d.\n", remove_if(&head, 6));
+    printf("Number of deleted elements: %d.\n", remove_if(&head, 10));
     print(head);
     printf("The size of the vector is: %d.\n", size(head));
 

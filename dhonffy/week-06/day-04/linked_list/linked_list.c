@@ -87,6 +87,7 @@ int remove_if(node_t** head, int value)
     int counter = 0;
     int deleted_elements = 0;
     node_t* p = *head;
+    node_t* previous_node = NULL;
     while (p != NULL) {
         if (value == p->data) {
             if (counter == 0) {
@@ -95,19 +96,18 @@ int remove_if(node_t** head, int value)
                 *head = next_node->next;
                 //pop_front(head);
                 p = *head;
-            } /*else {
-                for (int i = 0; i < counter; ++i) {
-                    p = p->next;
-                }
-                node_t* node_to_delete = p->next;
-                if (p->next != NULL) {
-                    p->next = node_to_delete->next;
+            } else {
+                node_t* node_to_delete = previous_node->next;
+                if (node_to_delete != NULL) {
+                    previous_node->next = node_to_delete->next;
                     free(node_to_delete);
+                    p = previous_node;
                 }
-            }*/
+            }
             //++deleted_elements;
         } else {
             ++counter;
+            previous_node = p;
             p = p->next;
         }
     }
