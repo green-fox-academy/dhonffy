@@ -138,3 +138,28 @@ node_t* search(node_t* head, int value)
     }
 }
 
+void sort_bubble(node_t* head)
+{
+    if (head == NULL){
+        return;
+    }
+    int sorted = 0;
+    do {
+        node_t* left = head;
+        if (left->next == NULL) {
+            return;
+        }
+        node_t* right = left->next;
+        sorted = 0;
+        do {
+            if (left->data > right->data) {
+                int temp = left->data;
+                left->data = right->data;
+                right->data = temp;
+                sorted = 1;
+            }
+            left = right;
+            right = right->next;
+        } while (right != NULL);
+    } while (sorted == 1);
+}
