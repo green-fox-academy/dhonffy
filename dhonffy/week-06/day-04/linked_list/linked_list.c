@@ -103,18 +103,17 @@ void print(node_t *head)
         }
     }
     return deleted_elements;
-}
+}*/
 
 void delete_after(node_t **head, int element)
 {
     node_t *p = *head;
-    node_t *node_to_delete = *head;
     for (int i = 0; i < element; ++i) {
         p = p->next;
     }
-    node_to_delete = p->next;
+    node_t* node_to_delete = p->next;
     if (p->next != NULL) {
         p->next = node_to_delete->next;
         free(node_to_delete);
     }
-}*/
+}

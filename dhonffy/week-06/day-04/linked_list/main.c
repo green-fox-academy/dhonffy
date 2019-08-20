@@ -26,8 +26,8 @@ int main()
     printf("The size of the vector is: %d.\n", size(head));
 
     //printf("Number of deleted elements: %d.\n", remove_if(head, 6));
-    //delete_after(&head, 0);
-    //print(head);
+    delete_after(&head, 6);
+    print(head);
     //printf("The size of the vector is: %d.\n", size(head));
 
     return 0;
