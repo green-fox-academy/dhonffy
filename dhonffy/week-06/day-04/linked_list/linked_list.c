@@ -104,7 +104,7 @@ int remove_if(node_t** head, int value)
                     p = previous_node;
                 }
             }
-            //++deleted_elements;
+            ++deleted_elements;
         } else {
             ++counter;
             previous_node = p;
