@@ -24,5 +24,9 @@ int main()
     print(head);
     printf("The size of the vector is: %d.\n", size(head));
 
+    delete_after(&head, 0);
+    print(head);
+    printf("The size of the vector is: %d.\n", size(head));
+
     return 0;
 }
