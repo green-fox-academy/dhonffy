@@ -126,3 +126,15 @@ void delete_after(node_t **head, int element)
         free(node_to_delete);
     }
 }
+
+node_t* search(node_t* head, int value)
+{
+    node_t *p = head;
+    while (p != NULL) {
+        if (value == p->data) {
+            return p;
+        }
+        p = p->next;
+    }
+}
+

@@ -16,5 +16,6 @@ int empty(node_t* head);
 void pop_front(node_t** head);
 int remove_if(node_t** head, int value);
 void delete_after(node_t** head, int element);
+node_t* search(node_t* head, int value);
 
 #endif //LINKED_LIST_LINKED_LIST_H

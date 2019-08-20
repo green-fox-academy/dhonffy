@@ -32,6 +32,7 @@ int main()
     printf("Number of deleted elements: %d.\n", remove_if(&head, 10));
     print(head);
     printf("The size of the vector is: %d.\n", size(head));
+    printf("The address of the searched variable is: %d.\n", search(head, 2346));
 
     return 0;
 }
