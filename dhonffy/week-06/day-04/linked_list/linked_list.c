@@ -34,6 +34,13 @@ void push_front(node_t **head, int data)
     *head = new_node;
 }
 
+void pop_front(node_t **head)
+{
+    node_t* next_node = *head;
+    free(head);
+    *head = next_node->next;
+}
+
 void insert(node_t **head, int data, int element)
 {
     node_t *new_node = (node_t *) malloc(sizeof(node_t));
@@ -75,34 +82,25 @@ void print(node_t *head)
     }
 }
 
-void pop_front(node_t *head)
-{
-    struct node *new_head = head->next;
-    free(head);
-    *head = *new_head;
-}
 
-int remove_if(node_t *head, int value)
+
+/*int remove_if(node_t **head, int value)
 {
-    int first_element = 1;
+    int counter = 0;
     int deleted_elements = 0;
-    node_t previous_element;
+
     while (head != NULL) {
         if (value == head->data) {
-            if (first_element == 1) {
+            if (counter == 0) {
                 pop_front(head);
-                head = head->next;
             } else {
-                previous_element.next = head->next;
-                free(head);
-                *head = previous_element;
+                delete_after(&head, 0);
             }
             ++deleted_elements;
         } else {
-            first_element = 0;
-            previous_element = *head;
+            ++counter;
+            head = head->next;
         }
-        head = head->next;
     }
     return deleted_elements;
 }
@@ -119,4 +117,4 @@ void delete_after(node_t **head, int element)
         p->next = node_to_delete->next;
         free(node_to_delete);
     }
-}
+}*/
