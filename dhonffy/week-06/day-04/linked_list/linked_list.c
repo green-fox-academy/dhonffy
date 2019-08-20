@@ -82,28 +82,37 @@ void print(node_t *head)
     }
 }
 
-
-
-/*int remove_if(node_t **head, int value)
+int remove_if(node_t** head, int value)
 {
     int counter = 0;
     int deleted_elements = 0;
-
-    while (head != NULL) {
-        if (value == head->data) {
+    node_t* p = *head;
+    while (p != NULL) {
+        if (value == p->data) {
             if (counter == 0) {
-                pop_front(head);
-            } else {
-                delete_after(&head, 0);
-            }
-            ++deleted_elements;
+                node_t* next_node = *head;
+                free(head);
+                *head = next_node->next;
+                //pop_front(head);
+                p = *head;
+            } /*else {
+                for (int i = 0; i < counter; ++i) {
+                    p = p->next;
+                }
+                node_t* node_to_delete = p->next;
+                if (p->next != NULL) {
+                    p->next = node_to_delete->next;
+                    free(node_to_delete);
+                }
+            }*/
+            //++deleted_elements;
         } else {
             ++counter;
-            head = head->next;
+            p = p->next;
         }
     }
     return deleted_elements;
-}*/
+}
 
 void delete_after(node_t **head, int element)
 {
