@@ -24,6 +24,21 @@ void push_back(vector_t **head, int data)
     head = &head_value;
 }
 
+void insert(vector_t** head, int element, int data)
+{
+    vector_t* head_value = *head;
+    if (head_value->capacity == head_value->length){
+        head_value->capacity += 5;
+        realloc(head_value->begin, head_value->capacity * sizeof(data));
+    }
+    for (int i = 0; i < head_value->length - element; ++i) {
+        head_value->length - i = head_value->length - 1 - i;
+    }
+    head_value->begin[element + 1] = data;
+    ++head_value->length;
+    head = &head_value;
+}
+
 void print(vector_t* vector)
 {
     int counter = vector->length;
