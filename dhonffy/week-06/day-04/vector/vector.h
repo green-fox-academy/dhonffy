@@ -12,5 +12,6 @@ void push_back(vector_t** head, int data);
 void insert(vector_t** head, int element, int data);
 void print(vector_t* vector);
 int size(vector_t* vector);
+int capacity(vector_t* vector);
 
 #endif //VECTOR_VECTOR_H

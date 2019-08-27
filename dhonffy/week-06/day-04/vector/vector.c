@@ -15,7 +15,7 @@ void init(vector_t** head)
 void push_back(vector_t **head, int data)
 {
     vector_t* head_value = *head;
-    if (head_value->capacity == head_value->length){
+    if (head_value->capacity <= head_value->length){
         head_value->capacity += 5;
         realloc(head_value->begin, head_value->capacity * sizeof(data));
     }
@@ -27,7 +27,7 @@ void push_back(vector_t **head, int data)
 void insert(vector_t** head, int element, int data)
 {
     vector_t* head_value = *head;
-    if (head_value->capacity == head_value->length){
+    if (head_value->capacity <= head_value->length){
         head_value->capacity += 5;
         realloc(head_value->begin, head_value->capacity * sizeof(data));
     }
@@ -41,7 +41,12 @@ void insert(vector_t** head, int element, int data)
 
 int size(vector_t* vector)
 {
-    return  vector->length + 1;
+    return  vector->length;
+}
+
+int capacity(vector_t* vector)
+{
+    return  vector->capacity;
 }
 
 void print(vector_t* vector)
