@@ -35,18 +35,32 @@ void pop_back(vector_t **head)
     head = &head_value;
 }
 
-void insert(vector_t** head, int element, int data)
+void insert(vector_t** head, int index, int data)
 {
     vector_t* head_value = *head;
     if (head_value->capacity <= head_value->length){
         head_value->capacity += 5;
         realloc(head_value->begin, head_value->capacity * sizeof(data));
     }
-    for (int i = 0; i < head_value->length - element; ++i) {
+    for (int i = 0; i < head_value->length - index; ++i) {
         head_value->begin[head_value->length - i] = head_value->begin[head_value->length - i - 1];
     }
-    head_value->begin[element + 1] = data;
+    head_value->begin[index + 1] = data;
     ++head_value->length;
+    head = &head_value;
+}
+
+int delete(vector_t** head, int index)
+{
+    vector_t* head_value = *head;
+    for (int i = index; i < head_value->length; ++i) {
+        head_value->begin[i] = head_value->begin[i + 1];
+    }
+    if (head_value->capacity >= head_value->length + 10){
+        head_value->capacity -= 10;
+        realloc(head_value->begin, head_value->capacity * sizeof(int));
+    }
+    --head_value->length;
     head = &head_value;
 }
 

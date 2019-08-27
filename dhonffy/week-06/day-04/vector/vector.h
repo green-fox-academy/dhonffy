@@ -10,7 +10,8 @@ typedef struct vector{
 void init(vector_t** head);
 void push_back(vector_t** head, int data);
 void pop_back(vector_t** head);
-void insert(vector_t** head, int element, int data);
+void insert(vector_t** head, int index, int data);
+int delete(vector_t** head, int index);
 void print(vector_t* vector);
 int size(vector_t* vector);
 int capacity(vector_t* vector);

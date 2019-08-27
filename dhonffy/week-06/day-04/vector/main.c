@@ -64,6 +64,9 @@ int main()
     pop_back(&vector);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
+    print(vector);
+    delete(&vector, 3);
+    print(vector);
 
     free(vector);
 
