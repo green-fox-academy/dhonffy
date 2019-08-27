@@ -2,69 +2,69 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void init(vector_t** head)
+void init(vector_t** vector)
 {
-    vector_t* head_value = *head;
-    head = NULL;
-    head_value->length = 0;
-    head_value->capacity = 1;
-    head_value->begin = (int *) malloc(sizeof(int));
-    head = &head_value;
+    vector_t* vector_value = *vector;
+    vector = NULL;
+    vector_value->length = 0;
+    vector_value->capacity = 1;
+    vector_value->begin = (int *) malloc(sizeof(int));
+    vector = &vector_value;
 }
 
-void push_back(vector_t **head, int data)
+void push_back(vector_t **vector, int data)
 {
-    vector_t* head_value = *head;
-    if (head_value->capacity <= head_value->length){
-        head_value->capacity += 5;
-        realloc(head_value->begin, head_value->capacity * sizeof(data));
+    vector_t* vector_value = *vector;
+    if (vector_value->capacity <= vector_value->length){
+        vector_value->capacity += 5;
+        realloc(vector_value->begin, vector_value->capacity * sizeof(data));
     }
-    head_value->begin[head_value->length] = data;
-    ++head_value->length;
-    head = &head_value;
+    vector_value->begin[vector_value->length] = data;
+    ++vector_value->length;
+    vector = &vector_value;
 }
 
-void pop_back(vector_t **head)
+void pop_back(vector_t **vector)
 {
-    vector_t* head_value = *head;
-    if (head_value->capacity >= head_value->length + 10){
-        head_value->capacity -= 10;
-        realloc(head_value->begin, head_value->capacity * sizeof(int));
+    vector_t* vector_value = *vector;
+    if (vector_value->capacity >= vector_value->length + 10){
+        vector_value->capacity -= 10;
+        realloc(vector_value->begin, vector_value->capacity * sizeof(int));
     }
-    --head_value->length;
-    head = &head_value;
+    --vector_value->length;
+    vector = &vector_value;
 }
 
-void insert(vector_t** head, int index, int data)
+void insert(vector_t** vector, int index, int data)
 {
-    vector_t* head_value = *head;
-    if (head_value->capacity <= head_value->length){
-        head_value->capacity += 5;
-        realloc(head_value->begin, head_value->capacity * sizeof(data));
+    vector_t* vector_value = *vector;
+    if (vector_value->capacity <= vector_value->length){
+        vector_value->capacity += 5;
+        realloc(vector_value->begin, vector_value->capacity * sizeof(data));
     }
-    for (int i = 0; i < head_value->length - index; ++i) {
-        head_value->begin[head_value->length - i] = head_value->begin[head_value->length - i - 1];
+    for (int i = 0; i < vector_value->length - index; ++i) {
+        vector_value->begin[vector_value->length - i] = vector_value->begin[vector_value->length - i - 1];
     }
-    head_value->begin[index + 1] = data;
-    ++head_value->length;
-    head = &head_value;
+    vector_value->begin[index + 1] = data;
+    ++vector_value->length;
+    vector = &vector_value;
 }
 
-int delete(vector_t** head, int index)
+int delete(vector_t** vector, int index)
 {
-    vector_t* head_value = *head;
-    if(index >= head_value->length){
+    vector_t* vector_value = *vector;
+    if(index >= vector_value->length){
         return 0;
     }
-    for (int i = index; i < head_value->length; ++i) {
-        head_value->begin[i] = head_value->begin[i + 1];
+    for (int i = index; i < vector_value->length; ++i) {
+        vector_value->begin[i] = vector_value->begin[i + 1];
     }
-    if (head_value->capacity >= head_value->length + 10){
-        head_value->capacity -= 10;
-        realloc(head_value->begin, head_value->capacity * sizeof(int));
+    if (vector_value->capacity >= vector_value->length + 10){
+        vector_value->capacity -= 10;
+        realloc(vector_value->begin, vector_value->capacity * sizeof(int));
     }
-    --head_value->length;
-    head = &head_value;
+    --vector_value->length;
+    vector = &vector_value;
     return 1;
 }
 
