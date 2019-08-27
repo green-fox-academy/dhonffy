@@ -39,6 +39,11 @@ void insert(vector_t** head, int element, int data)
     head = &head_value;
 }
 
+int size(vector_t* vector)
+{
+    return  vector->length + 1;
+}
+
 void print(vector_t* vector)
 {
     int counter = vector->length;

@@ -12,10 +12,13 @@ int main()
     push_back(&vector, 108);
     push_back(&vector, 95);
     print(vector);
+    printf("length: %d. \n", size(vector));
     insert(&vector, 0, 5);
     print(vector);
+    printf("length: %d. \n", size(vector));
     insert(&vector, 4, 38);
     print(vector);
+    printf("length: %d. \n", size(vector));
 
     free(vector);
 
