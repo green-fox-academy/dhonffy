@@ -53,6 +53,9 @@ void insert(vector_t** head, int index, int data)
 int delete(vector_t** head, int index)
 {
     vector_t* head_value = *head;
+    if(index >= head_value->length){
+        return 0;
+    }
     for (int i = index; i < head_value->length; ++i) {
         head_value->begin[i] = head_value->begin[i + 1];
     }
@@ -62,6 +65,7 @@ int delete(vector_t** head, int index)
     }
     --head_value->length;
     head = &head_value;
+    return 1;
 }
 
 int size(vector_t* vector)
