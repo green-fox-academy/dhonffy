@@ -11,6 +11,8 @@ int main()
     printf("The vector is empty: %d \n", empty(vector));
     push_back(&vector, 8);
     print(vector);
+    printf("The searched value is the %dth element.\n", search(vector, 8));
+    printf("The searched value is the %dth element.\n", search(vector, 5));
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
     printf("The vector is empty: %d \n", empty(vector));
@@ -25,6 +27,7 @@ int main()
     push_back(&vector, 3);
     push_back(&vector, 108);
     push_back(&vector, 95);
+    printf("The searched value is the %dth element.\n", search(vector, 108));
     print(vector);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));

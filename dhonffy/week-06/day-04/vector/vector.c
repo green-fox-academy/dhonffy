@@ -89,8 +89,17 @@ int empty(vector_t* vector)
 
 void print(vector_t* vector)
 {
-    int counter = vector->length;
     for (int i = 0; i < vector->length; ++i) {
         printf("%d. %d\n", i + 1, vector->begin[i]);
     }
+}
+
+int search(vector_t* vector, int data)
+{
+    for (int i = 0; i < vector->length; ++i) {
+        if (vector->begin[i] == data){
+            return i;
+        }
+    }
+    return -1;
 }

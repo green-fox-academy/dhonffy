@@ -16,5 +16,6 @@ void print(vector_t* vector);
 int size(vector_t* vector);
 int capacity(vector_t* vector);
 int empty(vector_t* vector);
+int search(vector_t* vector, int data);
 
 #endif //VECTOR_VECTOR_H
