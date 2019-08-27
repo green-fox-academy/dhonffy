@@ -12,6 +12,10 @@ int main()
     push_back(&vector, 108);
     push_back(&vector, 95);
     print(vector);
+    insert(&vector, 0, 5);
+    print(vector);
+    insert(&vector, 4, 38);
+    print(vector);
 
     free(vector);
 

@@ -32,7 +32,7 @@ void insert(vector_t** head, int element, int data)
         realloc(head_value->begin, head_value->capacity * sizeof(data));
     }
     for (int i = 0; i < head_value->length - element; ++i) {
-        head_value->length - i = head_value->length - 1 - i;
+        head_value->begin[head_value->length - i] = head_value->begin[head_value->length - i - 1];
     }
     head_value->begin[element + 1] = data;
     ++head_value->length;
