@@ -24,6 +24,17 @@ void push_back(vector_t **head, int data)
     head = &head_value;
 }
 
+void pop_back(vector_t **head)
+{
+    vector_t* head_value = *head;
+    if (head_value->capacity >= head_value->length + 10){
+        head_value->capacity -= 10;
+        realloc(head_value->begin, head_value->capacity * sizeof(int));
+    }
+    --head_value->length;
+    head = &head_value;
+}
+
 void insert(vector_t** head, int element, int data)
 {
     vector_t* head_value = *head;
