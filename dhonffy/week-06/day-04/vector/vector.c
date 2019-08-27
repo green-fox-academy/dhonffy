@@ -49,6 +49,15 @@ int capacity(vector_t* vector)
     return  vector->capacity;
 }
 
+int empty(vector_t* vector)
+{
+    if(vector->length == 0){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 void print(vector_t* vector)
 {
     int counter = vector->length;

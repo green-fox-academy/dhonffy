@@ -8,9 +8,11 @@ int main()
     init(&vector);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
+    printf("The vector is empty: %d \n", empty(vector));
     push_back(&vector, 8);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
+    printf("The vector is empty: %d \n", empty(vector));
     push_back(&vector, 88);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
@@ -28,6 +30,7 @@ int main()
     print(vector);
     printf("length: %d. \n", size(vector));
     printf("capacity: %d. \n", capacity(vector));
+    printf("The vector is empty: %d \n", empty(vector));
 
     free(vector);
 
