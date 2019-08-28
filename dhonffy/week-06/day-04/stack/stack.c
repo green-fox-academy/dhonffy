@@ -12,7 +12,7 @@ void init(stack_t** stack)
     stack = &stack_value;
 }
 
-void push_back(stack_t **stack, int data)
+void push(stack_t **stack, int data)
 {
     stack_t* stack_value = *stack;
     if (stack_value->capacity <= stack_value->length){
@@ -46,5 +46,5 @@ int empty(stack_t* stack)
 
 int get(stack_t* stack)
 {
-    return stack->begin[stack->length];
+    return stack->begin[stack->length - 1];
 }
