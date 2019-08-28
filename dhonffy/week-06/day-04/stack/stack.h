@@ -10,6 +10,7 @@ typedef struct stack{
 void init(stack_t** stack);
 void push(stack_t** stack, int data);
 void pop(stack_t** stack);
-int empty(stack_t* vector);
+int empty(stack_t* stack);
+int get(stack_t* stack);
 
 #endif //STACK_STACK_H

@@ -43,3 +43,8 @@ int empty(stack_t* stack)
         return 0;
     }
 }
+
+int get(stack_t* stack)
+{
+    return stack->begin[stack->length];
+}
