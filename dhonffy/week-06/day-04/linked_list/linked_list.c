@@ -172,5 +172,5 @@ void sort_insertion(node_t* head)
     }
     pointer_node_t* pointer_head;
     pointer_init(&pointer_head);
-   
+
 }
