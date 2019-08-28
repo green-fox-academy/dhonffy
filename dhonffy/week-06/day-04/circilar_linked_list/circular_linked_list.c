@@ -30,7 +30,7 @@ void add_node_by_index(node_t** head, int index)
     p->next = new_node;
 }
 
-void write(int data)
+void write(int data, node_t* current)
 {
 
 }

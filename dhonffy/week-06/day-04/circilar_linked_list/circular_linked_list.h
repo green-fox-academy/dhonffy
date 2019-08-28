@@ -9,7 +9,7 @@ typedef struct node{
 void add_head(node_t** head);
 void add_node_by_index(node_t** node, int index);
 void init(node_t** head, int size);
-void write(int data);
+void write(int data, node_t* current);
 
 
 /*
