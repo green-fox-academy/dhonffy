@@ -67,8 +67,9 @@ void blink_led(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint32_t period);
 
 /* USER CODE BEGIN PV */
 uint8_t game_started = 0;
+uint8_t random_delay_on = 0;
+uint8_t delay_time_elapsed = 0;
 uint8_t user_1_reacted_early = 0;
-uint8_t reaction_measure = 0;
 uint32_t random_delay;
 int red_led_game_start_frequenz = 1000;
 uint32_t test = 0;
@@ -146,15 +147,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	/*if (game_started){
-      random_delay = ((random_delay % 10) + 1) * 1000;
-      HAL_Delay(random_delay);
-      reaction_measure = 1;
-      HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_SET);*/
+	if (game_started){
+
       /*if(user_1_reacted_early){
         HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
       }*/
-	/*}*/
+	}
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
@@ -248,12 +246,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   if(GPIO_Pin == START_GAME_PA8_Pin){
 	if(!game_started){
       game_started = 1;
+      random_delay_on = 1;
       HAL_GPIO_WritePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin, GPIO_PIN_RESET);
       HAL_RNG_GenerateRandomNumber(&hrng, &random_delay);
+      HAL_TIM_Base_Stop_IT(&htim7);
+      HAL_TIM_Base_Start_IT(&htim7);
+      random_delay = ((random_delay % 10) + 1) * 2;
 	}
   }
   if(GPIO_Pin == REACTION_BUTTON_PA15_Pin){
-	if(game_started && !reaction_measure){
+	if(game_started && !random_delay_on){
 	  user_1_reacted_early = 1;
 	  HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
     }
@@ -275,6 +277,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if(htim->Instance == TIM7){
 	if(!game_started){
       HAL_GPIO_TogglePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin);
+	}
+	if(game_started && random_delay_on){
+      ++test2;
+	  if(++delay_time_elapsed == random_delay){
+	    ++test;
+		HAL_GPIO_WritePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin, 1);
+	  }
 	}
   }
 
