@@ -78,6 +78,7 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim8;
 TIM_HandleTypeDef htim12;
 
@@ -90,6 +91,7 @@ uint8_t game_started = 0;
 uint8_t user_1_reacted_early = 0;
 uint8_t reaction_measure = 0;
 uint32_t random_delay;
+int red_led_game_start_frequenz = 1000;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -116,6 +118,7 @@ static void MX_TIM8_Init(void);
 static void MX_TIM12_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_RNG_Init(void);
+static void MX_TIM7_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
@@ -175,6 +178,7 @@ int main(void)
   MX_TIM12_Init();
   MX_USART1_UART_Init();
   MX_RNG_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_RESET);
   /* USER CODE END 2 */
@@ -183,18 +187,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	if (!game_started){
-      blink_led(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, red_led_game_start_frequenz);
-      continue;
-    }
-    random_delay = ((random_delay % 10) + 1) * 1000;
-    HAL_Delay(random_delay);
-    reaction_measure = 1;
-    HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_SET);
-    /*if(user_1_reacted_early){
-      HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
-    }*/
-
+	if (game_started){
+      random_delay = ((random_delay % 10) + 1) * 1000;
+      HAL_Delay(random_delay);
+      reaction_measure = 1;
+      HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_SET);
+      /*if(user_1_reacted_early){
+        HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
+      }*/
+	}
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
@@ -799,7 +800,7 @@ static void MX_SAI2_Init(void)
   hsai_BlockB2.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockB2.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockB2.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  hsai_BlockB2.FrameInit.FrameLength = 8;
+  hsai_BlockB2.FrameInit.FrameLength = 24;
   hsai_BlockB2.FrameInit.ActiveFrameLength = 1;
   hsai_BlockB2.FrameInit.FSDefinition = SAI_FS_STARTFRAME;
   hsai_BlockB2.FrameInit.FSPolarity = SAI_FS_ACTIVE_LOW;
@@ -1097,6 +1098,44 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 2 */
   HAL_TIM_MspPostInit(&htim5);
+
+}
+
+/**
+  * @brief TIM7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM7_Init(void)
+{
+
+  /* USER CODE BEGIN TIM7_Init 0 */
+
+  /* USER CODE END TIM7_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM7_Init 1 */
+
+  /* USER CODE END TIM7_Init 1 */
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 10000-1;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 0;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM7_Init 2 */
+
+  /* USER CODE END TIM7_Init 2 */
 
 }
 
@@ -1482,11 +1521,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void blink_led(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, uint32_t period)
-{
-  HAL_GPIO_TogglePin(GPIOx, GPIO_Pin);
-  HAL_Delay(period / 2);
-}
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
@@ -1517,6 +1551,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+  if(htim->Instance == TIM7){
+	if(!game_started){
+		HAL_GPIO_TogglePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin);
+	}
+  }
 
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6) {
