@@ -255,7 +255,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
   }
   if(GPIO_Pin == REACTION_BUTTON_PA15_Pin){
-	if(game_started && !random_delay_on){
+	if(game_started && random_delay_on){
 	  user_1_reacted_early = 1;
 	  HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
     }
@@ -279,10 +279,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       HAL_GPIO_TogglePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin);
 	}
 	if(game_started && random_delay_on){
-      ++test2;
 	  if(++delay_time_elapsed == random_delay){
-	    ++test;
 		HAL_GPIO_WritePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin, 1);
+		random_delay_on = 0;
 	  }
 	}
   }
