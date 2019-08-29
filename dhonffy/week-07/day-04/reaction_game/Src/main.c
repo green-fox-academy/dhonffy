@@ -71,7 +71,9 @@ uint8_t random_delay_on = 0;
 uint8_t delay_time_elapsed = 0;
 uint8_t user_1_reacted_early = 0;
 uint8_t user_1_time_measure = 0;
+uint8_t user_1_time_measured = 0;
 uint32_t random_delay;
+uint32_t elapsed_time = 0;
 int red_led_game_start_frequenz = 1000;
 uint32_t test = 0;
 uint32_t test2 = 0;
@@ -139,6 +141,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_RNG_Init();
   MX_TIM7_Init();
+  MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_RESET);
   HAL_GPIO_WritePin(LED_RGB_GREEN_PI3_GPIO_Port, LED_RGB_GREEN_PI3_Pin, GPIO_PIN_NEG_RESET);
@@ -153,9 +156,11 @@ int main(void)
 
       if(user_1_reacted_early){
     	HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
-      }else if (user_1_time_measure) {
-
       }
+      if(user_1_time_measured){
+          elapsed_time = __HAL_TIM_GET_COUNTER(&htim10) / 10;
+      }
+
 	}
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
@@ -264,7 +269,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	  HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
     }
 	if(game_started && user_1_time_measure){
-	HAL_GPIO_WritePin(LED_RGB_GREEN_PI3_GPIO_Port, LED_RGB_GREEN_PI3_Pin, GPIO_PIN_NEG_SET);
+	  HAL_GPIO_WritePin(LED_RGB_GREEN_PI3_GPIO_Port, LED_RGB_GREEN_PI3_Pin, GPIO_PIN_NEG_SET);
+	  HAL_TIM_Base_Stop(&htim10);
+	  user_1_time_measure = 0;
+	  user_1_time_measured = 1;
 	}
   }
 }
@@ -289,6 +297,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  if(++delay_time_elapsed == random_delay){
 		HAL_GPIO_WritePin(LED_PLAYER_1_GPIO_Port, LED_PLAYER_1_Pin, 1);
 		HAL_TIM_Base_Stop_IT(&htim7);
+		HAL_TIM_Base_Start(&htim10);
 		random_delay_on = 0;
 		user_1_time_measure = 1;
 	  }
