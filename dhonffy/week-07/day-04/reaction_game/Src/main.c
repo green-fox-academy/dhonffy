@@ -149,9 +149,9 @@ int main(void)
   {
 	if (game_started){
 
-      /*if(user_1_reacted_early){
-        HAL_GPIO_WritePin(LED_RED_PC7_GPIO_Port, LED_RED_PC7_Pin, GPIO_PIN_RESET);
-      }*/
+      if(user_1_reacted_early){
+    	HAL_GPIO_WritePin(LED_RGB_RED_PI2_GPIO_Port, LED_RGB_RED_PI2_Pin, GPIO_PIN_NEG_SET);
+      }
 	}
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
