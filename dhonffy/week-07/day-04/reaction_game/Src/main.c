@@ -39,9 +39,10 @@
 #include "gpio.h"
 #include "fmc.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "../../../../STM32Cube/Repository/STM32Cube_FW_F7_V1.15.0/Drivers/BSP/STM32746G-Discovery/stm32746g_discovery_lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +52,9 @@ typedef enum pin_state_negative
   GPIO_PIN_NEG_SET = 0,
   GPIO_PIN_NEG_RESET
 }pin_state_negative_t;
+#define LCD_FRAME_BUFFER		SDRAM_DEVICE_ADDR
+#define RGB565_BYTE_PER_PIXEL	2
+#define ARBG888_BYTE_PER_PIXEL	4
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -109,6 +113,15 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  BSP_LCD_Init();
+  BSP_LCD_LayerDefaultInit(1, LCD_FB_START_ADDRESS);
+  BSP_LCD_SelectLayer(1);
+  //BSP_LCD_SetLayerVisible(1, 1);
+  BSP_LCD_SetFont(&LCD_DEFAULT_FONT);
+  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+  //BSP_LCD_SetTextColor(LCD_COLOR_YELLOW);
+  //BSP_LCD_DisplayOn();
+  BSP_LCD_Clear(LCD_COLOR_BLACK);
 
   /* USER CODE END Init */
 
@@ -152,6 +165,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    BSP_LCD_DisplayStringAt(20, 20, "Hello world!", CENTER_MODE);
+
 	if (game_started){
 
       if(user_1_reacted_early){
