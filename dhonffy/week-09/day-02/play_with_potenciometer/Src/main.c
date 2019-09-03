@@ -118,8 +118,16 @@ int main(void)
 
 	if (HAL_ADC_PollForConversion(&hadc3, 10) == HAL_OK) {
 	  pot1_value = HAL_ADC_GetValue(&hadc3);
-	  TIM1->CCR1 = calculate_ccr1(pot1_value);
-	  TIM2->PSC = calculate_psc(pot1_value);
+	  if(mode == PWM){
+        TIM1->PSC = 20-1;
+        TIM1->ARR = 4096-1;
+        TIM1->CCR1 = calculate_ccr1(pot1_value);
+	  }
+	  if(mode == PERIOD){
+        TIM1->PSC = calculate_psc(pot1_value);;
+        TIM1->ARR = 2800-1;
+        TIM1->CCR1 = 1400-1;
+	  }
 	}
     /* USER CODE END WHILE */
 
@@ -191,12 +199,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     prev_start_time = HAL_GetTick();
     if (mode == PWM){
       mode = PERIOD;
-      HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
-      HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
     } else {
       mode = PWM;
-      HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-      HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
     }
   }
 
