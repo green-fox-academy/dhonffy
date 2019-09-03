@@ -36,7 +36,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define PERCENTAGE_LOW_LIMIT 5
+#define PERCENTAGE_HIGH_LIMIT 75
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,12 +49,13 @@
 
 /* USER CODE BEGIN PV */
 uint16_t adc_value = 0;
+uint16_t tim1_ccr1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+uint16_t calculate_ccr1(uint16_t adc_value);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -105,8 +107,11 @@ int main(void)
 	HAL_ADC_Start(&hadc3);
 
 	if (HAL_ADC_PollForConversion(&hadc3, 10) == HAL_OK) {
-	  TIM1->CCR1 = HAL_ADC_GetValue(&hadc3);
-	  TIM2->PSC = HAL_ADC_GetValue(&hadc3);
+	  adc_value = HAL_ADC_GetValue(&hadc3);
+	  tim1_ccr1 = calculate_ccr1(adc_value);
+	  TIM1->CCR1 = tim1_ccr1;
+	  TIM2->PSC = adc_value;
+
 	}
     /* USER CODE END WHILE */
 
@@ -159,7 +164,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+uint16_t calculate_ccr1(uint16_t adc_value)
+{
+  return adc_value * (PERCENTAGE_HIGH_LIMIT - PERCENTAGE_LOW_LIMIT) / 100 + TIM1->ARR  * PERCENTAGE_LOW_LIMIT / 100;
+}
 /* USER CODE END 4 */
 
 /**
