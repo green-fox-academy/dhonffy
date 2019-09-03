@@ -52,6 +52,14 @@
 
 /* USER CODE BEGIN PV */
 uint16_t pot1_value = 0;
+uint16_t prev_start_time = 0;
+uint8_t mode;
+typedef enum
+{
+  PWM = 0,
+  PERIOD
+}mode_t;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -83,7 +91,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  mode = PWM;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -100,7 +108,6 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -173,6 +180,26 @@ uint16_t calculate_ccr1(uint16_t pot1_value)
 uint16_t calculate_psc(uint16_t pot1_value)
 {
   return (pot1_value * (FREQUENCY_HIGH_LIMIT - FREQUENCY_LOW_LIMIT) / 4096 + FREQUENCY_LOW_LIMIT) * FREQUENCY_TO_PRESCALER;
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == PUSH_BUTTON_Pin){
+    if (HAL_GetTick() - 300 < prev_start_time) {
+      return;
+    }
+    prev_start_time = HAL_GetTick();
+    if (mode == PWM){
+      mode = PERIOD;
+      HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+      HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+    } else {
+      mode = PWM;
+      HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+      HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+    }
+  }
+
 }
 /* USER CODE END 4 */
 
