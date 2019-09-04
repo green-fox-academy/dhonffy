@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -49,6 +50,7 @@
 /* USER CODE BEGIN PV */
 I2C_HandleTypeDef hi2c1;
 uint8_t read_temp_val;
+uint8_t time_elapsed = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,7 +103,24 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  uint8_t init1 = 0b00100001;
+  uint8_t init2 = 0b10000001;
+  uint8_t read_temp_reg = 0;
+  uint8_t tens;
+  uint8_t ones;
+  //data matrix
+  uint8_t data[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+  const uint8_t data0[] = {0x7c, 0xc6, 0x7c};
+  const uint8_t data1[] = {0x20, 0x40, 0xfe};
+  const uint8_t data2[] = {0x4e, 0x9a, 0x72};
+  const uint8_t data3[] = {0x92, 0x92, 0x7c};
+  const uint8_t data4[] = {0xf0, 0x10, 0xfe};
+  const uint8_t data5[] = {0xf2, 0x92, 0x9c};
+  const uint8_t data6[] = {0x6c, 0x92, 0x8c};
+  const uint8_t data7[] = {0x80, 0x8e, 0xf0};
+  const uint8_t data8[] = {0x6c, 0x92, 0x6c};
+  const uint8_t data9[] = {0x62, 0x92, 0x7c};
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -114,49 +133,71 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t read_temp_reg = 0;
 
   //init LED matrix
-  uint8_t init1 = 0b00100001;
-  uint8_t init2 = 0b10000001;
-
   HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, &init1, 1, 100);
   HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, &init2, 1, 100);
 
-  //data matrix
-  const uint8_t data[] = {0x62, 0x92, 0x7c, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-  const uint8_t data0x[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data1x[] = {0x20, 0x40, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data2x[] = {0x4e, 0x9a, 0x72, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data3x[] = {0x92, 0x92, 0x7c, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t datax4[] = {0xf0, 0x10, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t datax5[] = {0x00, 0x00, 0x00, 0x00, 0xf2, 0x92, 0x9c, 0x00};
-  const uint8_t datax6[] = {0x00, 0x00, 0x00, 0x00, 0x6c, 0x92, 0x8c, 0x00};
-  const uint8_t datax7[] = {0x00, 0x00, 0x00, 0x00, 0x80, 0x8e, 0xf0, 0x00};
-  const uint8_t datax8[] = {0x00, 0x00, 0x00, 0x00, 0x6c, 0x92, 0x6c, 0x00};
-  const uint8_t datax9[] = {0x00, 0x00, 0x00, 0x00, 0x62, 0x92, 0x7c, 0x00};
-  const uint8_t datax0[] = {0x00, 0x00, 0x00, 0x00, 0x7c, 0xc6, 0x7c, 0x00};
-  const uint8_t datax1[] = {0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0xfe, 0x00};
-  const uint8_t datax2[] = {0x00, 0x00, 0x00, 0x00, 0x4e, 0x9a, 0x72, 0x00};
-  const uint8_t datax3[] = {0x00, 0x00, 0x00, 0x00, 0x92, 0x92, 0x7c, 0x00};
-  const uint8_t data4x[] = {0x00, 0x00, 0x00, 0x00, 0xf0, 0x10, 0xfe, 0x00};
-  const uint8_t data5x[] = {0xf2, 0x92, 0x9c, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data6x[] = {0x6c, 0x92, 0x8c, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data7x[] = {0x80, 0x8e, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data8x[] = {0x6c, 0x92, 0x6c, 0x00, 0x00, 0x00, 0x00, 0x00};
-  const uint8_t data9x[] = {0x62, 0x92, 0x7c, 0x00, 0x00, 0x00, 0x00, 0x00};
+  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_Delay(1000);
-
+    if (time_elapsed == 0){
+      continue;
+    }
+    time_elapsed = 0;
 	HAL_I2C_Master_Transmit(&hi2c1, TEMP_SENSOR_ADDRESS, &read_temp_reg, sizeof(read_temp_reg), 100);
 	HAL_I2C_Master_Receive(&hi2c1, TEMP_SENSOR_ADDRESS, &read_temp_val, sizeof(read_temp_val), 100);
+	tens = read_temp_val / 10;
+	ones = read_temp_val % 10;
+	for (int i = 0; i < 3; ++i) {
+      switch (tens) {
+        case 0: break;
+        case 1: data[i] = data1[i];
+                break;
+        case 2: data[i] = data2[i];
+                break;
+        case 3: data[i] = data3[i];
+                break;
+        case 4: data[i] = data4[i];
+                break;
+        case 5: data[i] = data5[i];
+                break;
+        case 6: data[i] = data6[i];
+                break;
+        case 7: data[i] = data7[i];
+                break;
+        case 8: data[i] = data8[i];
+                break;
+        case 9: data[i] = data9[i];
+      }
+      switch (ones) {
+        case 0: data[i + 4] = data0[i];
+                break;
+        case 1: data[i + 4] = data1[i];
+                break;
+        case 2: data[i + 4] = data2[i];
+                break;
+        case 3: data[i + 4] = data3[i];
+                break;
+        case 4: data[i + 4] = data4[i];
+                break;
+        case 5: data[i + 4] = data5[i];
+                break;
+        case 6: data[i + 4] = data6[i];
+                break;
+        case 7: data[i + 4] = data7[i];
+                break;
+        case 8: data[i + 4] = data8[i];
+                break;
+        case 9: data[i + 4] = data9[i];
+      }
+	}
 	set_led_matrix(data);
     /* USER CODE END WHILE */
 
@@ -233,7 +274,9 @@ void SystemClock_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-
+  if (htim->Instance == TIM2) {
+    time_elapsed = 1;
+  }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM14) {
     HAL_IncTick();
