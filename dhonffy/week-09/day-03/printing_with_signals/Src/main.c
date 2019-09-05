@@ -70,7 +70,7 @@ void MX_FREERTOS_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  text_length = 0;
   /* USER CODE END 1 */
   
 
@@ -94,7 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1,(uint8_t*)(&new_character), 1);
+  HAL_UART_Receive_IT(&huart1, &received_char, 1);
 
   /* USER CODE END 2 */
 
@@ -172,7 +172,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if(huart->Instance == USART1){
     osSignalSet(readCharacterHandle, 1);
-    HAL_UART_Receive_IT(&huart1,(uint8_t*)(&new_character), 1);
   }
 }
 /* USER CODE END 4 */

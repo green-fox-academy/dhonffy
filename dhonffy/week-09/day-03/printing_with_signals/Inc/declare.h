@@ -1,7 +1,9 @@
 uint8_t new_input;
-uint8_t test;
-uint8_t test2;
-char new_character[255];
+uint8_t received_char;
+uint8_t text[255];
+int text_length;
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 
 
 

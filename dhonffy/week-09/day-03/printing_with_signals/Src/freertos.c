@@ -23,6 +23,7 @@
 #include "task.h"
 #include "main.h"
 #include "cmsis_os.h"
+#include "usart.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
@@ -145,8 +146,13 @@ void startReadCharacter(void const * argument)
   for(;;)
   {
 	osSignalWait(1, osWaitForever);
-    ++test2;
-    osDelay(100);
+	text[text_length] = received_char;
+    ++text_length;
+    if (received_char == '\n'){
+      HAL_UART_Transmit(&huart1, text, text_length, 1000);
+	}
+    received_char = 0;
+    HAL_UART_Receive_IT(&huart1, &received_char, 1);
   }
   /* USER CODE END startReadCharacter */
 }
