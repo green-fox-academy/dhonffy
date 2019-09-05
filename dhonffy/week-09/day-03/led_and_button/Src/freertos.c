@@ -50,6 +50,7 @@
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId toggleLEDHandle;
+osThreadId buttonHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -58,6 +59,7 @@ osThreadId toggleLEDHandle;
 
 void StartDefaultTask(void const * argument);
 void StartToggleLED(void const * argument);
+void startButton(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -96,6 +98,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(toggleLED, StartToggleLED, osPriorityNormal, 0, 128);
   toggleLEDHandle = osThreadCreate(osThread(toggleLED), NULL);
 
+  /* definition and creation of button */
+  osThreadDef(button, startButton, osPriorityIdle, 0, 128);
+  buttonHandle = osThreadCreate(osThread(button), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -111,6 +117,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+    
     
     
     
@@ -142,10 +149,37 @@ void StartToggleLED(void const * argument)
 	for(int i = 0; i < 50; ++i){
 	  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 	  osDelay(100);
-	  ++test2;
 	}
+	osThreadResume(buttonHandle);
   }
   /* USER CODE END StartToggleLED */
+}
+
+/* USER CODE BEGIN Header_startButton */
+/**
+* @brief Function implementing the button thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startButton */
+void startButton(void const * argument)
+{
+  /* USER CODE BEGIN startButton */
+  /* Infinite loop */
+  for(;;)
+  {
+	osSignalWait(1, osWaitForever);
+	button_push_start_time = HAL_GetTick();
+	while(HAL_GPIO_ReadPin(PB_POLLING_GPIO_Port, PB_POLLING_Pin)){
+	  time_difference = HAL_GetTick() - button_push_start_time;
+	  if(time_difference > 2000){
+		osSignalSet(toggleLEDHandle, 1);
+	  }
+	  time_difference = HAL_GetTick() - button_push_start_time;
+	}
+	osThreadSuspend(NULL);
+  }
+  /* USER CODE END startButton */
 }
 
 /* Private application code --------------------------------------------------*/

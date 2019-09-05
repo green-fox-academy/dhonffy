@@ -47,6 +47,7 @@
 
 /* USER CODE BEGIN PV */
 extern osThreadId toggleLEDHandle;
+extern osThreadId buttonHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -166,8 +167,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   prev_start_time = HAL_GetTick();
 
   if(GPIO_Pin == PB_INTERRUPT_Pin){
-    osSignalSet(toggleLEDHandle, 1);
-    ++test;
+	osSignalSet(buttonHandle, 1);
   }
 }
 /* USER CODE END 4 */
