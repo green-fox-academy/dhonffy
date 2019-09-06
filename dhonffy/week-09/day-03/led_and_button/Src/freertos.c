@@ -174,10 +174,11 @@ void startButton(void const * argument)
 	  time_difference = HAL_GetTick() - button_push_start_time;
 	  if(time_difference > 2000){
 		osSignalSet(toggleLEDHandle, 1);
+		button_push_start_time = HAL_GetTick();
+		osThreadSuspend(NULL);
+		break;
 	  }
-	  time_difference = HAL_GetTick() - button_push_start_time;
 	}
-	osThreadSuspend(NULL);
   }
   /* USER CODE END startButton */
 }
