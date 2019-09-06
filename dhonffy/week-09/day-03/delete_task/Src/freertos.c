@@ -183,14 +183,9 @@ void startTask_1(void const * argument)
   {
 	arg.task_name = 1;
 	arg.frequency = 1000;
-	char* text;
-	//sprintf(text, "Task%d is running.", arg.task_name);
-	//sprintf(text, "Task is running.");
-	int text_length = 16;
-	HAL_UART_Transmit(&huart1, "Task", 4, 1000);
-	HAL_UART_Transmit(&huart1, (char)&arg.task_name, 1, 1000);
-	HAL_UART_Transmit(&huart1, " is running.\r\n", 14, 1000);
-
+	char text[25];
+	sprintf(text, "Task %d is running.\r\n", arg.task_name);
+	HAL_UART_Transmit(&huart1, text, strlen(text), 1000);
     osDelay(arg.frequency);
   }
   /* USER CODE END startTask_1 */
