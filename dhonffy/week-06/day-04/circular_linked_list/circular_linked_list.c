@@ -8,30 +8,35 @@ void init(node_t** current_node, int size)
     end_node->data = 0;
     node_t* next_node = end_node;
     node_t* node;
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size - 1; ++i) {
         node = (node_t *) malloc(sizeof(node_t));
         node->data = 0;
         node->next = next_node;
         next_node = node;
     }
-    current_node = &node;
+    *current_node = node;
     end_node->next = node;
 }
 
 node_t write(node_t* current_node, int data)
 {
-    current_node->data = data;
+    node_t* node = current_node;
+    node->data = data;
+    //current_node->data = data;
 }
 
 int is_below_threshold(node_t* current_node, int threshold)
 {
     node_t* node = current_node;
+    node->data = current_node->data;
+    node->next = current_node->next;
     do{
         if(node->data >= threshold){
-            return 1;
+            return 0;
         }
+        node = node->next;
     }while (node != current_node);
-    return 0;
+    return 1;
 }
 
 
