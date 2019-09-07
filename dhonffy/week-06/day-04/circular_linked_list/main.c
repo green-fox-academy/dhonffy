@@ -10,8 +10,12 @@ int main()
     write(current, 4);
     write(current, 5);
     write(current, 5);
-    write(current, 5);
+    write(current, 55);
     write(current, 5);
     printf("%d\n", is_below_threshold(current, 10));
+    printf("%d\n", is_below_threshold(current, 88));
+    add_node(current, 3, 99);
+    printf("%d\n", is_below_threshold(current, 88));
+
     return 0;
 }

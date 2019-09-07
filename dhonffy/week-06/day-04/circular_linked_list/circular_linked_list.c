@@ -35,24 +35,23 @@ int is_below_threshold(node_t* current_node, int threshold)
 }
 
 
-/*void add_node(node_t** head, int value, int new_value, node_t* current)
+int add_node(node_t* current, int value, int new_value)
 {
-
-    node_t *new_node = (node_t *) malloc(sizeof(node_t));
-    new_node->data = 0;
-    new_node->next = NULL;
-
-    node_t *p = *head;
-    int counter = 0;
-    while (p->next != NULL) {
-        p = p->next;
-        if (counter++ == index){
-            p->next = *head;
+    node_t* start= current;
+    do{
+        if(current->data == value){
+            node_t *new_node = (node_t *) malloc(sizeof(node_t));
+            new_node->data = new_value;
+            new_node->next = current->next;
+            current->next = new_node;
+            return 1;
+        } else {
+            current = current->next;
         }
-    }
+    }while (current != start);
 
-    p->next = new_node;
-}*/
+    return 0;
+}
 
 
 
