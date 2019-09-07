@@ -76,6 +76,27 @@ int remove_node(node_t* current_node, int value)
     return 0;
 }
 
+int remove_node_all(node_t* current_node, int value)
+{
+    int removed_node = 0;
+    node_t* previous_node = current_node;
+    node_t* start = current_node->next;
+    current_node = current_node->next;
+    do{
+        if(current_node->data == value){
+            node_t *p = current_node;
+            previous_node->next = current_node->next;
+            free(current_node);
+            removed_node = 1;
+        } else {
+            current_node = current_node->next;
+        }
+    }while (current_node != start);
+    if(removed_node == 1){
+        return 1;
+    }
+    return 0;
+}
 
 /*
 void push_back(node_t **head, int data)

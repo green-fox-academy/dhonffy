@@ -21,7 +21,9 @@ int main()
     add_node(current, 102, 105);
     printf("%d\n", is_below_threshold(current, 102));
     remove_node(current, 99);
-    printf("%d\n", is_below_threshold(current, 88));
+    remove_node_all(current, 5);
+    remove_node_all(current, 55);
+    printf("%d\n", is_below_threshold(current, 5));
 
 
     return 0;
