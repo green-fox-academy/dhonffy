@@ -57,7 +57,24 @@ int add_node(node_t* current_node, int value, int new_value)
     return 0;
 }
 
+int remove_node(node_t* current_node, int value)
+{
+    node_t* previous_node = current_node;
+    node_t* start = current_node->next;
+    current_node = current_node->next;
+    do{
+        if(current_node->data == value){
+            node_t *p = current_node;
+            previous_node->next = current_node->next;
+            free(current_node);
+            return 1;
+        } else {
+            current_node = current_node->next;
+        }
+    }while (current_node != start);
 
+    return 0;
+}
 
 
 /*
