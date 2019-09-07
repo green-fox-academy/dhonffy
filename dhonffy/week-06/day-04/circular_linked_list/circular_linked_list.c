@@ -18,11 +18,10 @@ void init(node_t** current_node, int size)
     end_node->next = node;
 }
 
-node_t write(node_t* current_node, int data)
+node_t* write(node_t* current_node, int data)
 {
-    node_t* node = current_node;
-    node->data = data;
-    //current_node->data = data;
+    current_node->data = data;
+    return current_node->next;
 }
 
 int is_below_threshold(node_t* current_node, int threshold)
