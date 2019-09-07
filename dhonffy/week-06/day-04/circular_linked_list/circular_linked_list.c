@@ -2,12 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void add_head(node_t** head)
-{
-    *head = NULL;
-}
-
-void init(node_t** head, int size)
+void init(node_t** current_node, int size)
 {
     node_t *end_node = (node_t *) malloc(sizeof(node_t));
     end_node->data = 0;
@@ -19,21 +14,33 @@ void init(node_t** head, int size)
         node->next = next_node;
         next_node = node;
     }
-    head = &node;
+    current_node = &node;
     end_node->next = node;
 }
 
-
-void add_node_by_index(node_t** head, int index)
+node_t write(node_t* current_node, int data)
 {
+    current_node->data = data;
+}
+
+int is_below_threshold(node_t* current_node, int threshold)
+{
+    node_t* node = current_node;
+    do{
+        if(node->data >= threshold){
+            return 1;
+        }
+    }while (node != current_node);
+    return 0;
+}
+
+
+/*void add_node(node_t** head, int value, int new_value, node_t* current)
+{
+
     node_t *new_node = (node_t *) malloc(sizeof(node_t));
     new_node->data = 0;
     new_node->next = NULL;
-
-    if (*head == NULL) {
-        *head = new_node;
-        return;
-    }
 
     node_t *p = *head;
     int counter = 0;
@@ -45,12 +52,9 @@ void add_node_by_index(node_t** head, int index)
     }
 
     p->next = new_node;
-}
+}*/
 
-void write(int data, node_t* current)
-{
 
-}
 
 
 /*

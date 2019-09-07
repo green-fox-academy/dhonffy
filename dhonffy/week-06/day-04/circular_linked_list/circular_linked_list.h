@@ -6,12 +6,11 @@ typedef struct node{
     struct node* next;
 } node_t;
 
-void add_head(node_t** head);
-void init_two_nodes(node_t** head);
-void init_three_nodes(node_t** head);
-void add_node_by_index(node_t** node, int index);
-void init(node_t** head, int size);
-void write(int data, node_t* current);
+void init(node_t** current_node, int size);
+node_t write(node_t* current_node, int data);
+int is_below_threshold(node_t* current_node, int threshold);
+//void add_node(node_t** node, int value, int new_value, node_t* current);
+
 
 
 /*
