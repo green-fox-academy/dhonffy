@@ -29,6 +29,7 @@
 #include "declare.h"
 #include "vector.h"
 #include <usart.h>
+#include "rng.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +54,7 @@
 osThreadId defaultTaskHandle;
 osThreadId printHandle;
 osThreadId initHandle;
-osThreadId toggleLEDHandle;
+osThreadId buttonHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -63,7 +64,7 @@ osThreadId toggleLEDHandle;
 void StartDefaultTask(void const * argument);
 void startPrint(void const * argument);
 void startInit(void const * argument);
-void startToggleLED(void const * argument);
+void startButton(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -106,9 +107,9 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(init, startInit, osPriorityRealtime, 0, 128);
   initHandle = osThreadCreate(osThread(init), NULL);
 
-  /* definition and creation of toggleLED */
-  osThreadDef(toggleLED, startToggleLED, osPriorityNormal, 0, 128);
-  toggleLEDHandle = osThreadCreate(osThread(toggleLED), NULL);
+  /* definition and creation of button */
+  osThreadDef(button, startButton, osPriorityNormal, 0, 128);
+  buttonHandle = osThreadCreate(osThread(button), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -180,22 +181,32 @@ void startInit(void const * argument)
   /* USER CODE END startInit */
 }
 
-/* USER CODE BEGIN Header_startToggleLED */
+/* USER CODE BEGIN Header_startButton */
 /**
-* @brief Function implementing the toggleLED thread.
+* @brief Function implementing the button thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_startToggleLED */
-void startToggleLED(void const * argument)
+/* USER CODE END Header_startButton */
+void startButton(void const * argument)
 {
-  /* USER CODE BEGIN startToggleLED */
+  /* USER CODE BEGIN startButton */
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	uint32_t random_number;
+	osSignalWait(1, osWaitForever);
+	uint32_t button_push_start_time = HAL_GetTick();
+	while(HAL_GPIO_ReadPin(PB_POLLING_GPIO_Port, PB_POLLING_Pin)){
+	  uint32_t time_difference = HAL_GetTick() - button_push_start_time;
+	  if(time_difference > 1000){
+		HAL_RNG_GenerateRandomNumber(&hrng, &random_number);
+		vector_push_back(vector, random_number);
+		button_push_start_time = HAL_GetTick();
+	  }
+	}
   }
-  /* USER CODE END startToggleLED */
+  /* USER CODE END startButton */
 }
 
 /* Private application code --------------------------------------------------*/

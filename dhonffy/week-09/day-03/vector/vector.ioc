@@ -1,7 +1,7 @@
 #MicroXplorer Configuration settings - do not modify
 FREERTOS.FootprintOK=true
 FREERTOS.IPParameters=Tasks01,FootprintOK
-FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL;print,-3,128,startPrint,Default,NULL,Dynamic,NULL,NULL;init,3,128,startInit,Default,NULL,Dynamic,NULL,NULL;toggleLED,0,128,startToggleLED,Default,NULL,Dynamic,NULL,NULL
+FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL;print,-3,128,startPrint,Default,NULL,Dynamic,NULL,NULL;init,3,128,startInit,Default,NULL,Dynamic,NULL,NULL;button,0,128,startButton,Default,NULL,Dynamic,NULL,NULL
 File.Version=6
 KeepUserPlacement=true
 Mcu.Family=STM32F7
