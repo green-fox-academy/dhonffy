@@ -58,6 +58,11 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define PB_POLLING_Pin GPIO_PIN_4
+#define PB_POLLING_GPIO_Port GPIOB
+#define PB_INTERRUPT_Pin GPIO_PIN_6
+#define PB_INTERRUPT_GPIO_Port GPIOG
+#define PB_INTERRUPT_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

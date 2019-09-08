@@ -53,6 +53,7 @@
 osThreadId defaultTaskHandle;
 osThreadId printHandle;
 osThreadId initHandle;
+osThreadId toggleLEDHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -62,6 +63,7 @@ osThreadId initHandle;
 void StartDefaultTask(void const * argument);
 void startPrint(void const * argument);
 void startInit(void const * argument);
+void startToggleLED(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -104,6 +106,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(init, startInit, osPriorityRealtime, 0, 128);
   initHandle = osThreadCreate(osThread(init), NULL);
 
+  /* definition and creation of toggleLED */
+  osThreadDef(toggleLED, startToggleLED, osPriorityNormal, 0, 128);
+  toggleLEDHandle = osThreadCreate(osThread(toggleLED), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -119,6 +125,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+    
     
     
     
@@ -171,6 +178,24 @@ void startInit(void const * argument)
     osSignalWait(1, osWaitForever);
   }
   /* USER CODE END startInit */
+}
+
+/* USER CODE BEGIN Header_startToggleLED */
+/**
+* @brief Function implementing the toggleLED thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startToggleLED */
+void startToggleLED(void const * argument)
+{
+  /* USER CODE BEGIN startToggleLED */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END startToggleLED */
 }
 
 /* Private application code --------------------------------------------------*/
