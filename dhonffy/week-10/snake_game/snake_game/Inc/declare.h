@@ -19,13 +19,15 @@ typedef enum direction {
 } direction_t;
 
 typedef enum state {
-  WAITING_FOR_START,
-  START
+  STARTING,
+  RUN
 } state_t;
 
+state_t game_state;
 field_t map[8][8];
 direction_t direction;
-state_t game_state;
+int test;
+
 
 int snake_x;
 int snake_y;

@@ -187,13 +187,29 @@ void startMoveDot(void const * argument)
 	osDelay(1000);
 	map[snake_y][snake_x] = EMPTY;
 	if (direction == RIGHT){
-	  snake_x += 1;
+	  if(snake_x >= 7){
+		osThreadResume(initHandle);
+	  }else{
+	    snake_x += 1;
+	  }
 	}else if (direction == LEFT){
-      snake_x -= 1;
+	  if(snake_x <= 0){
+		osThreadResume(initHandle);
+	  }else{
+		snake_x -= 1;
+	  }
 	}else if (direction == UP){
-	  snake_y -= 1;
+	  if(snake_y <= 0){
+		osThreadResume(initHandle);
+	  }else{
+		snake_y -= 1;
+	  }
 	}else if (direction == DOWN){
-	  snake_y += 1;
+	  if(snake_y >= 7){
+		osThreadResume(initHandle);
+	  }else{
+		snake_y += 1;
+	  }
 	}
 	map[snake_y][snake_x] = SNAKE;
 	osSignalSet(displayDotHandle, 1);
@@ -214,9 +230,14 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+	snake_x = 0;
+	snake_y = 0;
+	direction = RIGHT;
     map[snake_y][snake_x] = SNAKE;
+    game_state = STARTING;
     osThreadSuspend(moveDotHandle);
-    osThreadTerminate(NULL);
+	osSignalSet(displayDotHandle, 1);
+    osThreadSuspend(NULL);
   }
   /* USER CODE END startInit */
 }

@@ -118,9 +118,6 @@ int main(void)
  		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
  		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
  };
-  snake_x = 0;
-  snake_y = 0;
-  direction = RIGHT;
 
   /* USER CODE END 2 */
 
@@ -205,13 +202,14 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  if(game_state == 0){
+  if(game_state == STARTING){
 	if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin || GPIO_Pin == PUSH_BUTTON_LEFT_Pin || GPIO_Pin == PUSH_BUTTON_DOWN_Pin || GPIO_Pin == PUSH_BUTTON_UP_Pin){
 	  osThreadResume(moveDotHandle);
+	  game_state = RUN;
     }
   }
 
-  if(game_state <= 1){
+  if(game_state == RUN){
     if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin){
 	  direction = RIGHT;
     }
