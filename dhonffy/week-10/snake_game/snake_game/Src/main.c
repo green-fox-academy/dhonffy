@@ -49,7 +49,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+extern osThreadId displayDotHandle;
+extern osThreadId moveDotHandle;
+extern osThreadId initHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -201,7 +203,29 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(game_state == 0){
+	if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin || GPIO_Pin == PUSH_BUTTON_LEFT_Pin || GPIO_Pin == PUSH_BUTTON_DOWN_Pin || GPIO_Pin == PUSH_BUTTON_UP_Pin){
+	  osThreadResume(moveDotHandle);
+    }
+  }
 
+  if(game_state <= 1){
+    if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin){
+	  direction = RIGHT;
+    }
+    if(GPIO_Pin == PUSH_BUTTON_LEFT_Pin){
+	  direction = LEFT;
+    }
+    if(GPIO_Pin == PUSH_BUTTON_UP_Pin){
+	  direction = UP;
+    }
+    if(GPIO_Pin == PUSH_BUTTON_DOWN_Pin){
+	  direction = DOWN;
+    }
+  }
+}
 /* USER CODE END 4 */
 
 /**

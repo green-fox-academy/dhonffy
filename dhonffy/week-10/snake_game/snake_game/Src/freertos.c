@@ -184,8 +184,19 @@ void startMoveDot(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    map[snake_y][snake_x] = SNAKE;
-    osThreadTerminate(NULL);
+	osDelay(1000);
+	map[snake_y][snake_x] = EMPTY;
+	if (direction == RIGHT){
+	  snake_x += 1;
+	}else if (direction == LEFT){
+      snake_x -= 1;
+	}else if (direction == UP){
+	  snake_y -= 1;
+	}else if (direction == DOWN){
+	  snake_y += 1;
+	}
+	map[snake_y][snake_x] = SNAKE;
+	osSignalSet(displayDotHandle, 1);
   }
   /* USER CODE END startMoveDot */
 }
@@ -203,19 +214,9 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	osDelay(1000);
-	map[snake_y][snake_x] = EMPTY;
-	if (direction == RIGHT){
-	  snake_x += 1;
-	}else if (direction == LEFT){
-      snake_x -= 1;
-	}else if (direction == UP){
-	  snake_y -= 1;
-	}else if (direction == DOWN){
-	  snake_y += 1;
-	}
-	map[snake_y][snake_x] = SNAKE;
-	osSignalSet(displayDotHandle, 1);
+    map[snake_y][snake_x] = SNAKE;
+    osThreadSuspend(moveDotHandle);
+    osThreadTerminate(NULL);
   }
   /* USER CODE END startInit */
 }
