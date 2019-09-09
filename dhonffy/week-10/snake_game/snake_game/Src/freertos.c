@@ -166,7 +166,7 @@ void startDisplayDot(void const * argument)
 	  buff[1] = (line[i] >> 1) | (line[i] << 7);
 	  HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, buff, 2, 100);
 	}
-    osDelay(1000);
+    osSignalWait(1, osWaitForever);
   }
   /* USER CODE END startDisplayDot */
 }
@@ -203,10 +203,19 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	osDelay(2000);
+	osDelay(1000);
 	map[snake_y][snake_x] = EMPTY;
-	snake_x += 1;
+	if (direction == RIGHT){
+	  snake_x += 1;
+	}else if (direction == LEFT){
+      snake_x -= 1;
+	}else if (direction == UP){
+	  snake_y -= 1;
+	}else if (direction == DOWN){
+	  snake_y += 1;
+	}
 	map[snake_y][snake_x] = SNAKE;
+	osSignalSet(displayDotHandle, 1);
   }
   /* USER CODE END startInit */
 }

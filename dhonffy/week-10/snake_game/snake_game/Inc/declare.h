@@ -19,6 +19,7 @@ typedef enum direction_t {
 } direction_t;
 
 field_t map[8][8];
+direction_t direction;
 
 int snake_x;
 int snake_y;
