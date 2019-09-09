@@ -22,10 +22,12 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
-
+#include "declare.h"
+#include "i2c.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,13 +47,144 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+map_t map[8][8] = {
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, SNAKE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+};
 /* USER CODE END Variables */
+osThreadId defaultTaskHandle;
+osThreadId displayDotHandle;
+osThreadId moveDotHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
    
 /* USER CODE END FunctionPrototypes */
+
+void StartDefaultTask(void const * argument);
+void startDisplayDot(void const * argument);
+void startMoveDot(void const * argument);
+
+void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
+
+/**
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
+void MX_FREERTOS_Init(void) {
+  /* USER CODE BEGIN Init */
+       
+  /* USER CODE END Init */
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* definition and creation of defaultTask */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of displayDot */
+  osThreadDef(displayDot, startDisplayDot, osPriorityRealtime, 0, 128);
+  displayDotHandle = osThreadCreate(osThread(displayDot), NULL);
+
+  /* definition and creation of moveDot */
+  osThreadDef(moveDot, startMoveDot, osPriorityHigh, 0, 128);
+  moveDotHandle = osThreadCreate(osThread(moveDot), NULL);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+}
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void const * argument)
+{
+    
+    
+    
+    
+
+  /* USER CODE BEGIN StartDefaultTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_startDisplayDot */
+/**
+* @brief Function implementing the displayDot thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startDisplayDot */
+void startDisplayDot(void const * argument)
+{
+  /* USER CODE BEGIN startDisplayDot */
+  /* Infinite loop */
+  for(;;)
+  {
+	clear_led_matrix();
+	uint8_t buff[2];
+
+	for(int i=0; i<8; i++)
+	{
+	  buff[0] = i*2;
+	  buff[1] = /*(*/map[i]/* >> 1) | (map[i] << 7)*/;
+	  HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, buff, 2, 100);
+	}
+    osDelay(1000);
+  }
+  /* USER CODE END startDisplayDot */
+}
+
+/* USER CODE BEGIN Header_startMoveDot */
+/**
+* @brief Function implementing the moveDot thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startMoveDot */
+void startMoveDot(void const * argument)
+{
+  /* USER CODE BEGIN startMoveDot */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END startMoveDot */
+}
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
