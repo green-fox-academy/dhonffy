@@ -47,20 +47,15 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-map_t map[8][8] = {
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, SNAKE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
-};
+
+int line[8];
+
+
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId displayDotHandle;
 osThreadId moveDotHandle;
+osThreadId initHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -70,6 +65,7 @@ osThreadId moveDotHandle;
 void StartDefaultTask(void const * argument);
 void startDisplayDot(void const * argument);
 void startMoveDot(void const * argument);
+void startInit(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -105,12 +101,16 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of displayDot */
-  osThreadDef(displayDot, startDisplayDot, osPriorityRealtime, 0, 128);
+  osThreadDef(displayDot, startDisplayDot, osPriorityHigh, 0, 128);
   displayDotHandle = osThreadCreate(osThread(displayDot), NULL);
 
   /* definition and creation of moveDot */
   osThreadDef(moveDot, startMoveDot, osPriorityHigh, 0, 128);
   moveDotHandle = osThreadCreate(osThread(moveDot), NULL);
+
+  /* definition and creation of init */
+  osThreadDef(init, startInit, osPriorityRealtime, 0, 128);
+  initHandle = osThreadCreate(osThread(init), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -127,6 +127,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+    
     
     
     
@@ -156,11 +157,13 @@ void startDisplayDot(void const * argument)
   {
 	clear_led_matrix();
 	uint8_t buff[2];
-
-	for(int i=0; i<8; i++)
-	{
+	for(int i=0; i<8; i++){
+	  line[i] = 1 * (int)map[7][i] + 2 * (int)map[6][i] + 4 * (int)map[5][i] + 8 * (int)map[4][i]
+				+ 16 * (int)map[3][i] + 32 * (int)map[2][i] + 64 * (int)map[1][i] + 128 * (int)map[0][i];
+	}
+	for(int i=0; i<8; i++){
 	  buff[0] = i*2;
-	  buff[1] = /*(*/map[i]/* >> 1) | (map[i] << 7)*/;
+	  buff[1] = (line[i] >> 1) | (line[i] << 7);
 	  HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, buff, 2, 100);
 	}
     osDelay(1000);
@@ -181,9 +184,28 @@ void startMoveDot(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    map[snake_x][snake_y] = SNAKE;
+    osThreadTerminate(NULL);
   }
   /* USER CODE END startMoveDot */
+}
+
+/* USER CODE BEGIN Header_startInit */
+/**
+* @brief Function implementing the init thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startInit */
+void startInit(void const * argument)
+{
+  /* USER CODE BEGIN startInit */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END startInit */
 }
 
 /* Private application code --------------------------------------------------*/

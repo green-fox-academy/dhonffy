@@ -1,10 +1,22 @@
+#ifndef __DECLARE_H
+#define __DECLARE_H
+
+
+
 #define LEDMATRIX_ADDRESS 0B11100000
 
-typedef enum map {
+typedef enum field_t {
 	EMPTY,
 	SNAKE,
 	FOOD,
-} map_t;
+} field_t;
+field_t map[8][8];
 
+int snake_x;
+int snake_y;
 
 void clear_led_matrix();
+int test;
+
+
+#endif //__DECLARE_H
