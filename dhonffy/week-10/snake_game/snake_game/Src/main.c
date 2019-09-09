@@ -118,6 +118,7 @@ int main(void)
  };
   snake_x = 0;
   snake_y = 0;
+  direction_t direction = RIGHT;
 
   /* USER CODE END 2 */
 

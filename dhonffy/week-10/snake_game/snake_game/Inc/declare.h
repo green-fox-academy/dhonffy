@@ -8,8 +8,16 @@
 typedef enum field_t {
 	EMPTY,
 	SNAKE,
-	FOOD,
+	FOOD
 } field_t;
+
+typedef enum direction_t {
+	RIGHT,
+	DOWN,
+	LEFT,
+	UP
+} direction_t;
+
 field_t map[8][8];
 
 int snake_x;

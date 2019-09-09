@@ -184,7 +184,7 @@ void startMoveDot(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    map[snake_x][snake_y] = SNAKE;
+    map[snake_y][snake_x] = SNAKE;
     osThreadTerminate(NULL);
   }
   /* USER CODE END startMoveDot */
@@ -203,7 +203,10 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	osDelay(2000);
+	map[snake_y][snake_x] = EMPTY;
+	snake_x += 1;
+	map[snake_y][snake_x] = SNAKE;
   }
   /* USER CODE END startInit */
 }
