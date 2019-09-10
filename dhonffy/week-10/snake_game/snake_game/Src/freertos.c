@@ -48,24 +48,24 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 
-int line[8];
-
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId displayDotHandle;
 osThreadId moveDotHandle;
 osThreadId initHandle;
+osThreadId gameOverHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-   
+
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
 void startDisplayDot(void const * argument);
 void startMoveDot(void const * argument);
 void startInit(void const * argument);
+void startGameOver(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -112,6 +112,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(init, startInit, osPriorityRealtime, 0, 128);
   initHandle = osThreadCreate(osThread(init), NULL);
 
+  /* definition and creation of gameOver */
+  osThreadDef(gameOver, startGameOver, osPriorityIdle, 0, 128);
+  gameOverHandle = osThreadCreate(osThread(gameOver), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -127,6 +131,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+    
     
     
     
@@ -158,12 +163,8 @@ void startDisplayDot(void const * argument)
 	clear_led_matrix();
 	uint8_t buff[2];
 	for(int i=0; i<8; i++){
-	  line[i] = 1 * (int)map[7][i] + 2 * (int)map[6][i] + 4 * (int)map[5][i] + 8 * (int)map[4][i]
-				+ 16 * (int)map[3][i] + 32 * (int)map[2][i] + 64 * (int)map[1][i] + 128 * (int)map[0][i];
-	}
-	for(int i=0; i<8; i++){
 	  buff[0] = i*2;
-	  buff[1] = (line[i] >> 1) | (line[i] << 7);
+	  buff[1] = (column[i] >> 1) | (column[i] << 7);
 	  HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, buff, 2, 100);
 	}
     osSignalWait(1, osWaitForever);
@@ -185,33 +186,33 @@ void startMoveDot(void const * argument)
   for(;;)
   {
 	osDelay(1000);
-	map[snake_y][snake_x] = EMPTY;
+	column[snake_x] &= 0 << (7 - snake_y);
 	if (direction == RIGHT){
 	  if(snake_x >= 7){
-		osThreadResume(initHandle);
+		osThreadResume(gameOverHandle);
 	  }else{
 	    snake_x += 1;
 	  }
 	}else if (direction == LEFT){
 	  if(snake_x <= 0){
-		osThreadResume(initHandle);
+		osThreadResume(gameOverHandle);
 	  }else{
 		snake_x -= 1;
 	  }
 	}else if (direction == UP){
 	  if(snake_y <= 0){
-		osThreadResume(initHandle);
+		osThreadResume(gameOverHandle);
 	  }else{
 		snake_y -= 1;
 	  }
 	}else if (direction == DOWN){
 	  if(snake_y >= 7){
-		osThreadResume(initHandle);
+		osThreadResume(gameOverHandle);
 	  }else{
 		snake_y += 1;
 	  }
 	}
-	map[snake_y][snake_x] = SNAKE;
+	column[snake_x] |= 1 << (7 - snake_y);
 	osSignalSet(displayDotHandle, 1);
   }
   /* USER CODE END startMoveDot */
@@ -233,13 +234,49 @@ void startInit(void const * argument)
 	snake_x = 0;
 	snake_y = 0;
 	direction = RIGHT;
-    map[snake_y][snake_x] = SNAKE;
+	for(int i = 0; i<8; ++i){
+	  column[i] = 0;
+	}
+	column[snake_x] |= 1 << (7 - snake_y);
+
     game_state = STARTING;
+    osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
-	osSignalSet(displayDotHandle, 1);
+    osSignalSet(displayDotHandle, 1);
     osThreadSuspend(NULL);
   }
   /* USER CODE END startInit */
+}
+
+/* USER CODE BEGIN Header_startGameOver */
+/**
+* @brief Function implementing the gameOver thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_startGameOver */
+void startGameOver(void const * argument)
+{
+  /* USER CODE BEGIN startGameOver */
+  /* Infinite loop */
+  for(;;)
+  {
+	osThreadSuspend(moveDotHandle);
+	game_state = GAME_OVER;
+	column[0] = 0x01;
+	column[1] = 0x63;
+	column[2] = 0x66;
+	column[3] = 0x04;
+	column[4] = 0x04;
+	column[5] = 0x66;
+	column[6] = 0x63;
+	column[7] = 0x01;
+	osSignalSet(displayDotHandle, 1);
+	osDelay(3000);
+    osThreadResume(initHandle);
+
+  }
+  /* USER CODE END startGameOver */
 }
 
 /* Private application code --------------------------------------------------*/

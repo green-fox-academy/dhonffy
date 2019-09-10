@@ -108,16 +108,7 @@ int main(void)
   MX_RNG_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  field_t map[8][8] = {
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
- 		  {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
- };
+  uint8_t line[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
   /* USER CODE END 2 */
 
@@ -210,16 +201,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   }
 
   if(game_state == RUN){
-    if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin){
+    if(GPIO_Pin == PUSH_BUTTON_RIGHT_Pin && direction != LEFT){
 	  direction = RIGHT;
     }
-    if(GPIO_Pin == PUSH_BUTTON_LEFT_Pin){
+    if(GPIO_Pin == PUSH_BUTTON_LEFT_Pin && direction != RIGHT){
 	  direction = LEFT;
     }
-    if(GPIO_Pin == PUSH_BUTTON_UP_Pin){
+    if(GPIO_Pin == PUSH_BUTTON_UP_Pin && direction != DOWN){
 	  direction = UP;
     }
-    if(GPIO_Pin == PUSH_BUTTON_DOWN_Pin){
+    if(GPIO_Pin == PUSH_BUTTON_DOWN_Pin && direction != UP){
 	  direction = DOWN;
     }
   }

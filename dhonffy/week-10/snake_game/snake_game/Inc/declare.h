@@ -5,12 +5,6 @@
 
 #define LEDMATRIX_ADDRESS 0B11100000
 
-typedef enum field {
-  EMPTY,
-  SNAKE,
-  FOOD
-} field_t;
-
 typedef enum direction {
   RIGHT,
   DOWN,
@@ -20,17 +14,18 @@ typedef enum direction {
 
 typedef enum state {
   STARTING,
-  RUN
+  RUN,
+  GAME_OVER
 } state_t;
 
 state_t game_state;
-field_t map[8][8];
+uint8_t column[8];
 direction_t direction;
 int test;
 
 
-int snake_x;
-int snake_y;
+uint8_t snake_x;
+uint8_t snake_y;
 
 void clear_led_matrix();
 int test;
