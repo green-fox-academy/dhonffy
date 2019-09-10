@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
+//#include "cmsis_os.h"
 #include "i2c.h"
 #include "rng.h"
 #include "usart.h"
@@ -29,6 +29,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "declare.h"
+#include "linked_list.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

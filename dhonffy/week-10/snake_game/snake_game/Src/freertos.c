@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */     
 #include "declare.h"
 #include "i2c.h"
+#include "linked_list.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

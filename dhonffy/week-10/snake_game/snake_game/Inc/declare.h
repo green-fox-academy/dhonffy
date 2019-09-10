@@ -1,10 +1,9 @@
 #ifndef __DECLARE_H
 #define __DECLARE_H
 
-
-
 #define LEDMATRIX_ADDRESS 0B11100000
 
+#include "cmsis_os.h"
 typedef enum direction {
   RIGHT,
   DOWN,
@@ -18,6 +17,16 @@ typedef enum state {
   RUN,
   GAME_OVER
 } state_t;
+
+typedef struct coord{
+  uint8_t x;
+  uint8_t y;
+}coord_t;
+
+typedef struct linked_list_node{
+  coord_t data;
+ struct linked_list_node_t* next;
+}linked_list_node_t;
 
 state_t game_state;
 uint8_t column[8];
