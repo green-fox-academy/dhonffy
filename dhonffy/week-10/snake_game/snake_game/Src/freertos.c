@@ -232,12 +232,18 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	snake_x = 0;
-	snake_y = 0;
+	linked_list_node_t* snake = linked_list_create();
+	coord_t snake_head = {2, 0};
+	linked_list_push_back(&snake, snake_head);
+	coord_t snake_1 = {1, 0};
+	linked_list_push_back(&snake, snake_1);
+	coord_t snake_2 = {0, 0};
+	linked_list_push_back(&snake, snake_2);
 	direction = STOP;
 	for(int i = 0; i<8; ++i){
 	  column[i] = 0;
 	}
+
 	column[snake_x] |= 1 << (7 - snake_y);
 
     game_state = STARTING;
