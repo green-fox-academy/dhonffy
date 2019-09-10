@@ -9,7 +9,8 @@ typedef enum direction {
   RIGHT,
   DOWN,
   LEFT,
-  UP
+  UP,
+  STOP
 } direction_t;
 
 typedef enum state {

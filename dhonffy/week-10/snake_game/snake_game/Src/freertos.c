@@ -233,7 +233,7 @@ void startInit(void const * argument)
   {
 	snake_x = 0;
 	snake_y = 0;
-	direction = RIGHT;
+	direction = STOP;
 	for(int i = 0; i<8; ++i){
 	  column[i] = 0;
 	}
@@ -242,6 +242,7 @@ void startInit(void const * argument)
     game_state = STARTING;
     osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
+    osDelay(100);
     osSignalSet(displayDotHandle, 1);
     osThreadSuspend(NULL);
   }
