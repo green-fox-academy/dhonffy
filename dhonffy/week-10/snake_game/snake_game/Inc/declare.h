@@ -34,17 +34,17 @@ state_t game_state;
 uint8_t column[8];
 direction_t direction;
 //int test;
-
+coord_t deleted;
 
 uint8_t snake_x;
 uint8_t snake_y;
 
 void clear_led_matrix();
 uint8_t size;
-//int test1;
-//int test2;
-//int test3;
-//int test4;
+int test1;
+int test2;
+int test3;
+int test4;
 //linked_list_node_t* snake2;
 
 #endif //__DECLARE_H

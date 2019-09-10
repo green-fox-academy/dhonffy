@@ -186,7 +186,7 @@ void startMoveDot(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	osDelay(1000);
+	osDelay(10000);
 	column[linked_list_get_x(snake, 0)] &= 0 << (7 - linked_list_get_y(snake, 0));
 	uint8_t x = linked_list_get_x(snake, 0);
 	uint8_t y = linked_list_get_y(snake, 0);
@@ -216,7 +216,8 @@ void startMoveDot(void const * argument)
 	  }
 	}
 	coord_t data = {x, y};
-	linked_list_push_front(&snake, data);
+	//linked_list_push_front(&snake, data);
+	deleted = linked_list_pop_back(&snake);
 	for(int i = 0; i < linked_list_size(snake); ++i){
 	  column[linked_list_get_x(snake, i)] |= 1 << (7 - (int)linked_list_get_y(snake, i));
 	}
