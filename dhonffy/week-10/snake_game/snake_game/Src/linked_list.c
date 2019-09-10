@@ -23,6 +23,7 @@ void linked_list_push_back(linked_list_node_t **head, coord_t data)
   new_node->next = NULL;
   if (*head == NULL) {
 	*head = new_node;
+	return;
   }
 
   linked_list_node_t *p = *head;
@@ -55,20 +56,31 @@ uint8_t linked_list_size(linked_list_node_t *head)
 {
   uint8_t counter = 0;
   linked_list_node_t *p = head;
-  while (p->next != NULL) {
+  while (p != NULL) {
     p = p->next;
     ++counter;
   }
   return counter;
 }
 
-coord_t linked_list_get(linked_list_node_t *head, uint8_t index)
+uint8_t linked_list_get_x(linked_list_node_t *head, uint8_t index)
 {
   uint8_t counter = 0;
   linked_list_node_t *p = head;
-  while (counter == index) {
+  while (counter != index) {
     p = p->next;
     ++counter;
   }
-  return p->data;
+  return p->data.x;
+}
+
+uint8_t linked_list_get_y(linked_list_node_t *head, uint8_t index)
+{
+  uint8_t counter = 0;
+  linked_list_node_t *p = head;
+  while (counter != index) {
+    p = p->next;
+    ++counter;
+  }
+  return p->data.y;
 }

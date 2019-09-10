@@ -28,6 +28,11 @@ typedef struct linked_list_node{
   struct linked_list_node* next;
 }linked_list_node_t;
 
+typedef struct snake{
+  linked_list_node_t* head;
+  uint8_t size;
+}snake_t;
+
 state_t game_state;
 uint8_t column[8];
 direction_t direction;
@@ -38,7 +43,10 @@ uint8_t snake_x;
 uint8_t snake_y;
 
 void clear_led_matrix();
-int test;
-
+//int test1;
+//int test2;
+//int test3;
+//int test4;
+//linked_list_node_t* snake2;
 
 #endif //__DECLARE_H

@@ -233,7 +233,10 @@ void startInit(void const * argument)
   for(;;)
   {
 	linked_list_node_t* snake = linked_list_create();
+	//snake2 = linked_list_create();
+
 	coord_t snake_head = {2, 0};
+	//linked_list_push_back(&snake2, snake_head);
 	linked_list_push_back(&snake, snake_head);
 	coord_t snake_1 = {1, 0};
 	linked_list_push_back(&snake, snake_1);
@@ -243,14 +246,18 @@ void startInit(void const * argument)
 	for(int i = 0; i<8; ++i){
 	  column[i] = 0;
 	}
-
-	column[snake_x] |= 1 << (7 - snake_y);
-
+	for(int i = 0; i < linked_list_size(snake); ++i){
+	  //test1 = linked_list_get_x(snake, i);
+	  //test2 = linked_list_get_y(snake, i);
+	  column[linked_list_get_x(snake, i)] |= 1 << (7 - linked_list_get_y(snake, i));
+	}
     game_state = STARTING;
     osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
     osDelay(100);
+
     osSignalSet(displayDotHandle, 1);
+
     osThreadSuspend(NULL);
   }
   /* USER CODE END startInit */
