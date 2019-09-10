@@ -25,7 +25,7 @@ typedef struct coord{
 
 typedef struct linked_list_node{
   coord_t data;
- struct linked_list_node_t* next;
+  struct linked_list_node* next;
 }linked_list_node_t;
 
 state_t game_state;
