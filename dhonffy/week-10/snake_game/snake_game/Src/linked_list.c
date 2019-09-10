@@ -36,9 +36,9 @@ void linked_list_push_back(linked_list_node_t **head, coord_t data)
 void linked_list_push_front(linked_list_node_t **head, coord_t data)
 {
   linked_list_node_t* new_head = (linked_list_node_t*) pvPortMalloc(sizeof(linked_list_node_t));
-  new_head->next = head;
+  new_head->next = *head;
   new_head->data = data;
-  head = new_head;
+  *head = new_head;
 }
 
 coord_t linked_list_pop_back(linked_list_node_t **head)

@@ -187,34 +187,41 @@ void startMoveDot(void const * argument)
   for(;;)
   {
 	osDelay(1000);
-	column[snake_x] &= 0 << (7 - snake_y);
+	column[linked_list_get_x(snake, 0)] &= 0 << (7 - linked_list_get_y(snake, 0));
+	uint8_t x = linked_list_get_x(snake, 0);
+	uint8_t y = linked_list_get_y(snake, 0);
 	if (direction == RIGHT){
-	  if(snake_x >= 7){
+	  if(linked_list_get_x(snake, 0) >= 7){
 		osThreadResume(gameOverHandle);
 	  }else{
-	    snake_x += 1;
+		x = linked_list_get_x(snake, 0) + 1;
 	  }
 	}else if (direction == LEFT){
-	  if(snake_x <= 0){
+	  if(linked_list_get_x(snake, 0) <= 0){
 		osThreadResume(gameOverHandle);
 	  }else{
-		snake_x -= 1;
+		x = linked_list_get_x(snake, 0) - 1;
 	  }
 	}else if (direction == UP){
-	  if(snake_y <= 0){
+	  if(linked_list_get_y(snake, 0) <= 0){
 		osThreadResume(gameOverHandle);
 	  }else{
-		snake_y -= 1;
+		y = linked_list_get_y(snake, 0) - 1;
 	  }
 	}else if (direction == DOWN){
-	  if(snake_y >= 7){
+	  if(linked_list_get_y(snake, 0) >= 7){
 		osThreadResume(gameOverHandle);
 	  }else{
-		snake_y += 1;
+		y = linked_list_get_y(snake, 0) + 1;
 	  }
 	}
-	column[snake_x] |= 1 << (7 - snake_y);
+	coord_t data = {x, y};
+	linked_list_push_front(&snake, data);
+	for(int i = 0; i < linked_list_size(snake); ++i){
+	  column[linked_list_get_x(snake, i)] |= 1 << (7 - (int)linked_list_get_y(snake, i));
+	}
 	osSignalSet(displayDotHandle, 1);
+	size = linked_list_size(snake);
   }
   /* USER CODE END startMoveDot */
 }
@@ -232,11 +239,9 @@ void startInit(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	linked_list_node_t* snake = linked_list_create();
-	//snake2 = linked_list_create();
+	snake = linked_list_create();
 
 	coord_t snake_head = {2, 0};
-	//linked_list_push_back(&snake2, snake_head);
 	linked_list_push_back(&snake, snake_head);
 	coord_t snake_1 = {1, 0};
 	linked_list_push_back(&snake, snake_1);
@@ -247,8 +252,6 @@ void startInit(void const * argument)
 	  column[i] = 0;
 	}
 	for(int i = 0; i < linked_list_size(snake); ++i){
-	  //test1 = linked_list_get_x(snake, i);
-	  //test2 = linked_list_get_y(snake, i);
 	  column[linked_list_get_x(snake, i)] |= 1 << (7 - linked_list_get_y(snake, i));
 	}
     game_state = STARTING;

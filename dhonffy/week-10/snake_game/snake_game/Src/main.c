@@ -216,10 +216,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
   }
 }
-test1 = 0;
-test2 = 0;
-test3 = 0;
-test4 = 0;
+
 
 /* USER CODE END 4 */
 
