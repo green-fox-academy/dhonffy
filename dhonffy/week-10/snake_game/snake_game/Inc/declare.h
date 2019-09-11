@@ -32,6 +32,7 @@ typedef struct linked_list_node{
 
 linked_list_node_t* snake;
 
+uint8_t players_score;
 state_t game_state;
 uint8_t column[8];
 direction_t direction;
@@ -48,6 +49,6 @@ int test1;
 int test2;
 int test3;
 int test4;
-//linked_list_node_t* snake2;
+
 
 #endif //__DECLARE_H

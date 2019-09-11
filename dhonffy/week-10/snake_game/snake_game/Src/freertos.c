@@ -228,6 +228,7 @@ void startMoveDot(void const * argument)
 		     ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
 	  column[food_x] |= 1 << (7 - food_y);
 	  coord_t food = {food_x, food_y};
+	  ++players_score;
 	}
 
 	for(int i = 0; i < 8; ++i){
@@ -283,6 +284,7 @@ void startInit(void const * argument)
 	coord_t food = {food_x, food_y};
 
     game_state = STARTING;
+    players_score = 0;
     osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
     osDelay(100);
