@@ -115,6 +115,7 @@ int main(void)
   uint8_t line[8] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, &init1, 1, 100);
   HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, &init2, 1, 100);
+  snake_grow = 0;
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

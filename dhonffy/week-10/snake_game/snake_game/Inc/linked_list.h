@@ -10,5 +10,6 @@ coord_t linked_list_pop_back(linked_list_node_t **head);
 uint8_t linked_list_size(linked_list_node_t *head);
 uint8_t linked_list_get_x(linked_list_node_t * head, uint8_t index);
 uint8_t linked_list_get_y(linked_list_node_t * head, uint8_t index);
+uint8_t linked_list_search(linked_list_node_t * head, uint8_t food_x, uint8_t food_y);
 
 #endif //__LINKED_LIST_H

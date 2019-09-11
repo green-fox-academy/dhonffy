@@ -43,6 +43,7 @@ uint8_t snake_x;
 uint8_t snake_y;
 uint8_t food_x;
 uint8_t food_y;
+uint8_t snake_grow;
 void clear_led_matrix();
 uint8_t size;
 int test1;

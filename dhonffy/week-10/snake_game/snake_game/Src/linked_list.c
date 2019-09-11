@@ -87,3 +87,15 @@ uint8_t linked_list_get_y(linked_list_node_t *head, uint8_t index)
   }
   return p->data.y;
 }
+
+uint8_t linked_list_search(linked_list_node_t * head, uint8_t food_x, uint8_t food_y)
+{
+  linked_list_node_t *p = head;
+  while (p != NULL) {
+    p = p->next;
+    if((food_x == p->data.x) && (food_y == p->data.y)){
+      return 1;
+    }
+  }
+  return 0;
+}

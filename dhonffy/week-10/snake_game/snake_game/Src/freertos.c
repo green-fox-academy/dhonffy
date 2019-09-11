@@ -216,19 +216,24 @@ void startMoveDot(void const * argument)
 	  }
 	}
 	coord_t data = {x, y};
-	deleted = linked_list_pop_back(&snake);
+
+	if(snake_grow == 0){
+	  deleted = linked_list_pop_back(&snake);
+	}else{
+	  snake_grow = 0;
+	}
+
 	linked_list_push_front(&snake, data);
 
 	if(data.x == food_x && data.y == food_y){
 	  do{
 	    food_x = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_X_SIZE;
 	    food_y = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_Y_SIZE;
-	  }while(((&snake[0])->data.x == food_x && (&snake[0])->data.y == food_y) ||
-	   	     ((&snake[1])->data.x == food_x && (&snake[1])->data.y == food_y) ||
-		     ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
+
+	  }while(linked_list_search(snake, food_x, food_y));
 	  column[food_x] |= 1 << (7 - food_y);
-	  coord_t food = {food_x, food_y};
 	  ++players_score;
+	  snake_grow = 1;
 	}
 
 	for(int i = 0; i < 8; ++i){
@@ -281,8 +286,6 @@ void startInit(void const * argument)
 		   ((&snake[1])->data.x == food_x && (&snake[1])->data.y == food_y) ||
 		   ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
 	column[food_x] |= 1 << (7 - food_y);
-	coord_t food = {food_x, food_y};
-
     game_state = STARTING;
     players_score = 0;
     osThreadSuspend(gameOverHandle);
