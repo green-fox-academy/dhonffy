@@ -219,6 +219,17 @@ void startMoveDot(void const * argument)
 	deleted = linked_list_pop_back(&snake);
 	linked_list_push_front(&snake, data);
 
+	if(data.x == food_x && data.y == food_y){
+	  do{
+	    food_x = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_X_SIZE;
+	    food_y = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_Y_SIZE;
+	  }while(((&snake[0])->data.x == food_x && (&snake[0])->data.y == food_y) ||
+	   	     ((&snake[1])->data.x == food_x && (&snake[1])->data.y == food_y) ||
+		     ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
+	  column[food_x] |= 1 << (7 - food_y);
+	  coord_t food = {food_x, food_y};
+	}
+
 	for(int i = 0; i < 8; ++i){
 	  column[i] = 0;
 	}
