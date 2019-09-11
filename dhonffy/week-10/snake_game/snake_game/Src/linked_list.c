@@ -47,7 +47,7 @@ coord_t linked_list_pop_back(linked_list_node_t **head)
   linked_list_node_t *p = *head;
   ++test2;
   while (p->next != NULL) {
-	  ez így ratyi az előző nextjét is át kéne írni n-ra nem csak freeelni
+	  //ez így ratyi az előző nextjét is át kéne írni n-ra nem csak freeelni
     ++test3;
 	p = p->next;
   }
