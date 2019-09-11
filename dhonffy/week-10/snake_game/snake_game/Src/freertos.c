@@ -29,6 +29,7 @@
 #include "declare.h"
 #include "i2c.h"
 #include "linked_list.h"
+#include "rng.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -225,6 +226,7 @@ void startMoveDot(void const * argument)
 	for(int i = 0; i < linked_list_size(snake); ++i){
 	  column[linked_list_get_x(snake, i)] |= 1 << (7 - (int)linked_list_get_y(snake, i));
 	}
+	column[food_x] |= 1 << (7 - food_y);
 	osSignalSet(displayDotHandle, 1);
 	size = linked_list_size(snake);
   }
@@ -242,6 +244,7 @@ void startInit(void const * argument)
 {
   /* USER CODE BEGIN startInit */
   /* Infinite loop */
+
   for(;;)
   {
 	snake = linked_list_create();
@@ -252,13 +255,22 @@ void startInit(void const * argument)
 	linked_list_push_back(&snake, snake_1);
 	coord_t snake_2 = {0, 0};
 	linked_list_push_back(&snake, snake_2);
-	direction = STOP;
+	direction = RIGHT;
 	for(int i = 0; i<8; ++i){
 	  column[i] = 0;
 	}
 	for(int i = 0; i < linked_list_size(snake); ++i){
 	  column[linked_list_get_x(snake, i)] |= 1 << (7 - linked_list_get_y(snake, i));
 	}
+	do{
+	  food_x = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_X_SIZE;
+	  food_y = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_Y_SIZE;
+	}while(((&snake[0])->data.x == food_x && (&snake[0])->data.y == food_y) ||
+		   ((&snake[1])->data.x == food_x && (&snake[1])->data.y == food_y) ||
+		   ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
+	column[food_x] |= 1 << (7 - food_y);
+	coord_t food = {food_x, food_y};
+
     game_state = STARTING;
     osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
@@ -268,6 +280,7 @@ void startInit(void const * argument)
 
     osThreadSuspend(NULL);
   }
+
   /* USER CODE END startInit */
 }
 

@@ -2,6 +2,8 @@
 #define __DECLARE_H
 
 #define LEDMATRIX_ADDRESS 0B11100000
+#define LEDMATRIX_X_SIZE 8;
+#define LEDMATRIX_Y_SIZE 8;
 
 #include "cmsis_os.h"
 typedef enum direction {
@@ -35,10 +37,11 @@ uint8_t column[8];
 direction_t direction;
 //int test;
 coord_t deleted;
-
+coord_t snake_head;
 uint8_t snake_x;
 uint8_t snake_y;
-
+uint8_t food_x;
+uint8_t food_y;
 void clear_led_matrix();
 uint8_t size;
 int test1;

@@ -75,6 +75,7 @@ void clear_led_matrix(){
 	HAL_I2C_Master_Transmit(&hi2c1, LEDMATRIX_ADDRESS, buff, 2, 100);
   }
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -219,7 +220,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
   }
 }
-
 
 /* USER CODE END 4 */
 
