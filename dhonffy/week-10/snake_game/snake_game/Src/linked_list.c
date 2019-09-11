@@ -43,15 +43,13 @@ void linked_list_push_front(linked_list_node_t **head, coord_t data)
 
 coord_t linked_list_pop_back(linked_list_node_t **head)
 {
-  ++test1;
   linked_list_node_t *p = *head;
-  ++test2;
+  linked_list_node_t *previous_element = *head;
   while (p->next != NULL) {
-	  //ez így ratyi az előző nextjét is át kéne írni n-ra nem csak freeelni
-    ++test3;
+	previous_element = p;
 	p = p->next;
   }
-  ++test4;
+  previous_element->next = NULL;
   coord_t deleted_element = p->data;
   vPortFree(p);
   return deleted_element;
