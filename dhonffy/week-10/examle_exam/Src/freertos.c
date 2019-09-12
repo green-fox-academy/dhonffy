@@ -30,7 +30,8 @@
 #include "usart.h"
 #include "gpio.h"
 #include "adc.h"
-
+#include "stdio.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -205,9 +206,9 @@ void start_print(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	//char* text;
-	//sprintf(text, "-------------------");
-	//HAL_UART_Transmit(huart1, text, sizeof(text), 100);
+	char text[50];
+	sprintf(text, "-------------------\r\n");
+	HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
 	//sprintf(text, "-------------------");
     osDelay(1000);
   }
