@@ -16,7 +16,6 @@ uint32_t size_of_vector;
 uint32_t capacity_of_vector;
 uint8_t empty;
 uint32_t prev_start_time;
-uint32_t pressure;
 
 
 

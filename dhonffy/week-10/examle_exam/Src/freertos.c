@@ -30,6 +30,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "adc.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,6 +56,7 @@ osThreadId defaultTaskHandle;
 osThreadId adcReadHandle;
 osThreadId printHandle;
 osMutexId vectorMutexHandle;
+osMutexId ReadWriteMutexHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -81,6 +83,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of vectorMutex */
   osMutexDef(vectorMutex);
   vectorMutexHandle = osMutexCreate(osMutex(vectorMutex));
+
+  /* definition and creation of ReadWriteMutex */
+  osMutexDef(ReadWriteMutex);
+  ReadWriteMutexHandle = osMutexCreate(osMutex(ReadWriteMutex));
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -154,12 +160,16 @@ void startAdcRead(void const * argument)
   for(;;)
   {
 	osSignalWait(1, osWaitForever);
-	test++;
 	HAL_ADC_Start(&hadc3);
 	if (HAL_ADC_PollForConversion(&hadc3, 10) == HAL_OK) {
-	  pressure = HAL_ADC_GetValue(&hadc3) * (PRESSURE_MAX - PRESSURE_MIN) /
+	  new_air_pressure.timestamp_ms = HAL_GetTick();
+	  new_air_pressure.pressure_kPa = HAL_ADC_GetValue(&hadc3) *
+				 (PRESSURE_MAX - PRESSURE_MIN) /
 			     (ANALOG_MAX - ANALOG_MIN) + PRESSURE_MIN;
 	}
+	osMutexWait(ReadWriteMutexHandle, osWaitForever);
+	vector_push_back(&air_pressure, new_air_pressure);
+	osMutexRelease(ReadWriteMutexHandle);
 
 	/*if(test == 0){
 	  osSignalWait(9, osWaitForever);
@@ -195,7 +205,11 @@ void start_print(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	//char* text;
+	//sprintf(text, "-------------------");
+	//HAL_UART_Transmit(huart1, text, sizeof(text), 100);
+	//sprintf(text, "-------------------");
+    osDelay(1000);
   }
   /* USER CODE END start_print */
 }
