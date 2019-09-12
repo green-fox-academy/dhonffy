@@ -163,6 +163,8 @@ void startAdcRead(void const * argument)
     osDelay(1000);
     vector_pop_back(&air_pressure);
     read_data = vector_at(air_pressure, (uint32_t)(test - 9));
+    size_of_vector = vector_size(air_pressure);
+    capacity_of_vector = vector_capacity(air_pressure);
     osDelay(1000);
   }
   /* USER CODE END startAdcRead */

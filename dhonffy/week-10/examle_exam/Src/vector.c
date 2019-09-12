@@ -42,3 +42,13 @@ air_pressure_t vector_at(vector_t* vector, uint32_t index)
 {
     return vector->data[index];
 }
+
+uint32_t vector_size(vector_t* vector)
+{
+    return  vector->length;
+}
+
+uint32_t vector_capacity(vector_t* vector)
+{
+    return  vector->capacity;
+}
