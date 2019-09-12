@@ -170,6 +170,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == PUSH_BUTTON_Pin){
+    if (HAL_GetTick() - 300 < prev_start_time) {
+      return;
+    }
+   	prev_start_time = HAL_GetTick();
+   	osSignalSet(adcReadHandle, 1);
+  }
+}
 
 /* USER CODE END 4 */
 

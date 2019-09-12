@@ -50,10 +50,10 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = PUSS_BUTTON_Pin;
+  GPIO_InitStruct.Pin = PUSH_BUTTON_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(PUSS_BUTTON_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(PUSH_BUTTON_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 6, 0);

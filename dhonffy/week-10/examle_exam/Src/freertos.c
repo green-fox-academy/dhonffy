@@ -150,7 +150,10 @@ void startAdcRead(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	if(test == 0){
+	osSignalWait(1, osWaitForever);
+	test++;
+
+	/*if(test == 0){
 	  osSignalWait(9, osWaitForever);
 	}
 	empty = vector_empty(air_pressure);
@@ -166,7 +169,7 @@ void startAdcRead(void const * argument)
     read_data = vector_at(air_pressure, (uint32_t)(test - 9));
     size_of_vector = vector_size(air_pressure);
     capacity_of_vector = vector_capacity(air_pressure);
-    osDelay(1000);
+    osDelay(1000);*/
   }
   /* USER CODE END startAdcRead */
 }
@@ -184,10 +187,10 @@ void startPrint(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	test = 9;
+	/*test = 9;
     osDelay(1000);
 	osSignalSet(adcReadHandle, 9);
-    osThreadSuspend(NULL);
+    osThreadSuspend(NULL);*/
   }
   /* USER CODE END startPrint */
 }

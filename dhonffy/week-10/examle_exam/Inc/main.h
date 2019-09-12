@@ -58,9 +58,9 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define PUSS_BUTTON_Pin GPIO_PIN_11
-#define PUSS_BUTTON_GPIO_Port GPIOI
-#define PUSS_BUTTON_EXTI_IRQn EXTI15_10_IRQn
+#define PUSH_BUTTON_Pin GPIO_PIN_11
+#define PUSH_BUTTON_GPIO_Port GPIOI
+#define PUSH_BUTTON_EXTI_IRQn EXTI15_10_IRQn
 #define PRESSURE_Pin GPIO_PIN_0
 #define PRESSURE_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
