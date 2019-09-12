@@ -38,3 +38,7 @@ void vector_pop_back(vector_t **vector)
     vector = &new_vector;
 }
 
+air_pressure_t vector_at(vector_t* vector, uint32_t index)
+{
+    return vector->data[index];
+}

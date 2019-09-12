@@ -162,6 +162,7 @@ void startAdcRead(void const * argument)
 	new_air_pressure.timestamp_ms += (uint32_t)test;
     osDelay(1000);
     vector_pop_back(&air_pressure);
+    read_data = vector_at(air_pressure, (uint32_t)(test - 9));
     osDelay(1000);
   }
   /* USER CODE END startAdcRead */

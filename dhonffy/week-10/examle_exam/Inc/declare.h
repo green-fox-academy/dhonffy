@@ -6,5 +6,6 @@
 uint8_t test;
 vector_t *air_pressure;
 air_pressure_t new_air_pressure;
+air_pressure_t read_data;
 
 #endif //__DECLARE_H

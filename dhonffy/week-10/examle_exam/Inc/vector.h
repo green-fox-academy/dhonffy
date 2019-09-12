@@ -10,14 +10,14 @@ typedef struct air_pressure {
 
 typedef struct vector{
     air_pressure_t *data;
-    uint8_t capacity;
-    uint8_t length;
+    uint32_t capacity;
+    uint32_t length;
 } vector_t;
 
 void vector_init(vector_t** vector);
 void vector_push_back(vector_t** vector, air_pressure_t air_pressure);
 void vector_pop_back(vector_t** vector);
-
+air_pressure_t vector_at(vector_t* vector, uint32_t index);
 
 
 #endif //__VECTOR_H
