@@ -57,6 +57,7 @@ osThreadId displayDotHandle;
 osThreadId moveDotHandle;
 osThreadId initHandle;
 osThreadId gameOverHandle;
+osThreadId BlinkFoodHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -68,6 +69,7 @@ void startDisplayDot(void const * argument);
 void startMoveDot(void const * argument);
 void startInit(void const * argument);
 void startGameOver(void const * argument);
+void StartBlinkFood(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -118,6 +120,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(gameOver, startGameOver, osPriorityIdle, 0, 128);
   gameOverHandle = osThreadCreate(osThread(gameOver), NULL);
 
+  /* definition and creation of BlinkFood */
+  osThreadDef(BlinkFood, StartBlinkFood, osPriorityHigh, 0, 128);
+  BlinkFoodHandle = osThreadCreate(osThread(BlinkFood), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -133,6 +139,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+    
     
     
     
@@ -226,11 +233,13 @@ void startMoveDot(void const * argument)
 	linked_list_push_front(&snake, data);
 
 	if(data.x == food_x && data.y == food_y){
+	  //mutex wait
 	  do{
 	    food_x = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_X_SIZE;
 	    food_y = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_Y_SIZE;
 
 	  }while(linked_list_search(snake, food_x, food_y));
+	  //mutex release
 	  column[food_x] |= 1 << (7 - food_y);
 	  ++players_score;
 	  snake_grow = 1;
@@ -279,14 +288,14 @@ void startInit(void const * argument)
 	for(int i = 0; i < linked_list_size(snake); ++i){
 	  column[linked_list_get_x(snake, i)] |= 1 << (7 - linked_list_get_y(snake, i));
 	}
+	//mutex wait
 	do{
 	  food_x = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_X_SIZE;
 	  food_y = HAL_RNG_GetRandomNumber(&hrng) % LEDMATRIX_Y_SIZE;
-	}while(((&snake[0])->data.x == food_x && (&snake[0])->data.y == food_y) ||
-		   ((&snake[1])->data.x == food_x && (&snake[1])->data.y == food_y) ||
-		   ((&snake[2])->data.x == food_x && (&snake[2])->data.y == food_y));
+	}while(linked_list_search(snake, food_x, food_y));
 	column[food_x] |= 1 << (7 - food_y);
-    game_state = STARTING;
+    //mutex release
+	game_state = STARTING;
     players_score = 0;
     osThreadSuspend(gameOverHandle);
     osThreadSuspend(moveDotHandle);
@@ -329,6 +338,33 @@ void startGameOver(void const * argument)
 
   }
   /* USER CODE END startGameOver */
+}
+
+/* USER CODE BEGIN Header_StartBlinkFood */
+/**
+* @brief Function implementing the BlinkFood thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartBlinkFood */
+void StartBlinkFood(void const * argument)
+{
+  /* USER CODE BEGIN StartBlinkFood */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(game_state == RUN){
+	  column[food_x] |= 1 << (7 - food_y);
+	  osSignalSet(displayDotHandle, 1);
+	  osDelay(150);
+	  column[food_x] &= ~(1 << (7 - food_y));
+	  osSignalSet(displayDotHandle, 1);
+	  osDelay(150);
+	}else if(game_state == STARTING){
+	  column[food_x] |= 1 << (7 - food_y);
+	}
+  }
+  /* USER CODE END StartBlinkFood */
 }
 
 /* Private application code --------------------------------------------------*/
