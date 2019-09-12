@@ -150,7 +150,11 @@ void startAdcRead(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(test == 0){
+	  osSignalWait(9, osWaitForever);
+	}
+	test++;
+    osDelay(1000);
   }
   /* USER CODE END startAdcRead */
 }
@@ -168,7 +172,10 @@ void startPrint(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	test = 9;
+    osDelay(1000);
+	osSignalSet(adcReadHandle, 9);
+    osThreadSuspend(NULL);
   }
   /* USER CODE END startPrint */
 }
