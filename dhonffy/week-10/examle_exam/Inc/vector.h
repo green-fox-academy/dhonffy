@@ -16,6 +16,7 @@ typedef struct vector{
 
 void vector_init(vector_t** vector);
 void vector_push_back(vector_t** vector, air_pressure_t air_pressure);
+void vector_pop_back(vector_t** vector);
 
 
 

@@ -155,8 +155,13 @@ void startAdcRead(void const * argument)
 	}
     vector_push_back(&air_pressure, new_air_pressure);
 	test++;
+	new_air_pressure.pressure_kPa += 1.5;
+	new_air_pressure.timestamp_ms += 1;
+	vector_push_back(&air_pressure, new_air_pressure);
 	new_air_pressure.pressure_kPa += (float)test;
 	new_air_pressure.timestamp_ms += (uint32_t)test;
+    osDelay(1000);
+    vector_pop_back(&air_pressure);
     osDelay(1000);
   }
   /* USER CODE END startAdcRead */

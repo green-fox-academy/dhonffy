@@ -31,3 +31,10 @@ void vector_push_back(vector_t** vector, air_pressure_t air_pressure)
   vector = &new_vector;
 }
 
+void vector_pop_back(vector_t **vector)
+{
+    vector_t *new_vector = *vector;
+    --new_vector->length;
+    vector = &new_vector;
+}
+
