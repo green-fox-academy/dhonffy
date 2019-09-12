@@ -209,7 +209,17 @@ void start_print(void const * argument)
 	char text[50];
 	sprintf(text, "-------------------\r\n");
 	HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
-	//sprintf(text, "-------------------");
+	if(vector_empty(air_pressure)){
+	  sprintf(text, "Vector is empty\r\n");
+      HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
+	}else{
+	  for(int i = 0; i < vector_size(air_pressure); ++i){
+   	    sprintf(text, "%d.   %lums %lukPa\r\n",
+			  i, air_pressure[i].data->timestamp_ms,
+			  (uint32_t)air_pressure[i].data->pressure_kPa);
+        HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
+	  }
+	}
     osDelay(1000);
   }
   /* USER CODE END start_print */
