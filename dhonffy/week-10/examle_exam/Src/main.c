@@ -28,7 +28,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "declare.h"
-#include "vector.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,6 +81,8 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
+  new_air_pressure.pressure_kPa = 5.0f;
+  new_air_pressure.timestamp_ms = 6;
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -96,7 +97,7 @@ int main(void)
   MX_ADC1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  vector_init(&air_pressure);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

@@ -153,7 +153,10 @@ void startAdcRead(void const * argument)
 	if(test == 0){
 	  osSignalWait(9, osWaitForever);
 	}
+    vector_push_back(&air_pressure, new_air_pressure);
 	test++;
+	new_air_pressure.pressure_kPa += (float)test;
+	new_air_pressure.timestamp_ms += (uint32_t)test;
     osDelay(1000);
   }
   /* USER CODE END startAdcRead */
