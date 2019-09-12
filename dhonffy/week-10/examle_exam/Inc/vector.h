@@ -20,5 +20,6 @@ void vector_pop_back(vector_t** vector);
 air_pressure_t vector_at(vector_t* vector, uint32_t index);
 uint32_t vector_size(vector_t* vector);
 uint32_t vector_capacity(vector_t* vector);
+uint8_t vector_empty(vector_t* vector);
 
 #endif //__VECTOR_H

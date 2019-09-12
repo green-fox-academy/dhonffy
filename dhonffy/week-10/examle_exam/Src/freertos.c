@@ -153,6 +153,7 @@ void startAdcRead(void const * argument)
 	if(test == 0){
 	  osSignalWait(9, osWaitForever);
 	}
+	empty = vector_empty(air_pressure);
     vector_push_back(&air_pressure, new_air_pressure);
 	test++;
 	new_air_pressure.pressure_kPa += 1.5;

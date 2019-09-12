@@ -43,6 +43,15 @@ air_pressure_t vector_at(vector_t* vector, uint32_t index)
     return vector->data[index];
 }
 
+uint8_t vector_empty(vector_t* vector)
+{
+    if(vector->length == 0){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 uint32_t vector_size(vector_t* vector)
 {
     return  vector->length;
