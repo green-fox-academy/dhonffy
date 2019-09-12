@@ -213,10 +213,13 @@ void start_print(void const * argument)
 	  sprintf(text, "Vector is empty\r\n");
       HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
 	}else{
-	  for(int i = 0; i < vector_size(air_pressure); ++i){
-   	    sprintf(text, "%d.   %lums %lukPa\r\n",
-			  i, air_pressure[i].data->timestamp_ms,
-			  (uint32_t)air_pressure[i].data->pressure_kPa);
+	  for(uint32_t i = 0; i < vector_size(air_pressure); ++i){
+		osMutexWait(ReadWriteMutexHandle, osWaitForever);
+		read_data = vector_at(air_pressure, i);
+		osMutexRelease(ReadWriteMutexHandle);
+   	    sprintf(text, "%lu.   %lums %lukPa\r\n",
+			  i + 1, read_data.timestamp_ms,
+			  (uint32_t)read_data.pressure_kPa);
         HAL_UART_Transmit(&huart1, (uint8_t*)text, strlen(text), 100);
 	  }
 	}
