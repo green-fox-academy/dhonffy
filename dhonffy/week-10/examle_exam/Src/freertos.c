@@ -27,6 +27,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
 #include "declare.h"
+#include "usart.h"
+#include "gpio.h"
+#include "adc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +63,7 @@ osMutexId vectorMutexHandle;
 
 void StartDefaultTask(void const * argument);
 void startAdcRead(void const * argument);
-void startPrint(void const * argument);
+void start_print(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -105,7 +108,7 @@ void MX_FREERTOS_Init(void) {
   adcReadHandle = osThreadCreate(osThread(adcRead), NULL);
 
   /* definition and creation of print */
-  osThreadDef(print, startPrint, osPriorityNormal, 0, 512);
+  osThreadDef(print, start_print, osPriorityIdle, 0, 512);
   printHandle = osThreadCreate(osThread(print), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -152,6 +155,11 @@ void startAdcRead(void const * argument)
   {
 	osSignalWait(1, osWaitForever);
 	test++;
+	HAL_ADC_Start(&hadc3);
+	if (HAL_ADC_PollForConversion(&hadc3, 10) == HAL_OK) {
+	  pressure = HAL_ADC_GetValue(&hadc3) * (PRESSURE_MAX - PRESSURE_MIN) /
+			     (ANALOG_MAX - ANALOG_MIN) + PRESSURE_MIN;
+	}
 
 	/*if(test == 0){
 	  osSignalWait(9, osWaitForever);
@@ -174,25 +182,22 @@ void startAdcRead(void const * argument)
   /* USER CODE END startAdcRead */
 }
 
-/* USER CODE BEGIN Header_startPrint */
+/* USER CODE BEGIN Header_start_print */
 /**
 * @brief Function implementing the print thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_startPrint */
-void startPrint(void const * argument)
+/* USER CODE END Header_start_print */
+void start_print(void const * argument)
 {
-  /* USER CODE BEGIN startPrint */
+  /* USER CODE BEGIN start_print */
   /* Infinite loop */
   for(;;)
   {
-	/*test = 9;
-    osDelay(1000);
-	osSignalSet(adcReadHandle, 9);
-    osThreadSuspend(NULL);*/
+    osDelay(1);
   }
-  /* USER CODE END startPrint */
+  /* USER CODE END start_print */
 }
 
 /* Private application code --------------------------------------------------*/

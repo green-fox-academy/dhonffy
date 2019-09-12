@@ -61,8 +61,8 @@ void Error_Handler(void);
 #define PUSH_BUTTON_Pin GPIO_PIN_11
 #define PUSH_BUTTON_GPIO_Port GPIOI
 #define PUSH_BUTTON_EXTI_IRQn EXTI15_10_IRQn
-#define PRESSURE_Pin GPIO_PIN_0
-#define PRESSURE_GPIO_Port GPIOA
+#define PRESSURE_Pin GPIO_PIN_10
+#define PRESSURE_GPIO_Port GPIOF
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
