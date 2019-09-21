@@ -19,8 +19,21 @@ namespace BasicWebshop.Controllers
             list.Add(shopItem);
             shopItem = new ShopItem() { Name = "Coca cola", Description = "asdéáéáf", Price = 25.0, QuantityOfStock = 0 };
             list.Add(shopItem);
-
             return View("Show", list);
+        }
+
+        /*[HttpGet("/Show")]
+        public IActionResult Search()
+        {
+
+            return View();
+        }*/
+
+        [HttpPost("/Show")]
+        public IActionResult Search()
+        {
+            var searchedItem = new SearchedItem() { };
+            return View("Show", searchedItem);
         }
     }
 }

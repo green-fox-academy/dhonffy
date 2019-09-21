@@ -1,31 +1,38 @@
 ﻿@using BasicWebshop.Models
 @model List<ShopItem>
-
-    <h1>
+    <head>
         <style>
             table, th, td {
                 border: 1px solid black;
             }
         </style>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>QuantityOfStock</th>
-            </tr>
-        </table>
-    </h1>
-    <p>
-        <table>
-            @for (int i = 0; i < @Model.Count; ++i)
-            {
-            <tr>
-                <th>@Model[i].Name</th>
-                <th>@Model[i].Description</th>
-                <th>@Model[i].Price</th>
-                <th>@Model[i].QuantityOfStock</th>
-            </tr>
+        </head>
+    <body>
+        <form action="/Show" method="post">
+                <label>
+                    Search for
+                </label>
+                <input type="text" name="name" />
+                <button type="submit">Search</button>
+                </form>
+        <p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>QuantityOfStock</th>
+                </tr>
+                @for (int i = 0; i < @Model.Count; ++i)
+                {
+                <tr>
+                    <td>@Model[i].Name</td>
+                    <td>@Model[i].Description</td>
+                    <td>@Model[i].Price</td>
+                    <td>@Model[i].QuantityOfStock</td>
+                
+                </tr>
             }
-        </table>
-    </p>
+            </table>
+        </p>
+    </body>    
